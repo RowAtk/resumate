@@ -1,0 +1,12 @@
+certifi==2019.11.28
+chardet==3.0.4
+classRant==1.0
+deepspeech==0.6.1
+devRantSimple==2.2
+-e git+https://github.com/RowAtk/dialogue-resume.git@ab6b45c1ecfbaf5ef3a399f3015f5df6cb3b2e1e#egg=dr
+idna==2.9
+nltk==3.4.5
+numpy==1.18.2
+requests==2.23.0
+six==1.14.0
+urllib3==1.25.8
