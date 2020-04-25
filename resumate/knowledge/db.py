@@ -1,6 +1,6 @@
 from resumate.knowledge import Session, Base, engine
 # import resumate.knowledge
-from resumate.knowledge.models import Major
+from resumate.knowledge.models import Major, CertAbv
 from resumate.knowledge.file_cleaner import tsv_cleaner
 
 
@@ -27,6 +27,8 @@ session = Session()
 data = tsv_cleaner('certabv.tsv')
 
 data.to_sql('cert_abbreviations', con=engine, if_exists='replace')
+
+session.query(CertAbv)
 
 
 # for record in data:

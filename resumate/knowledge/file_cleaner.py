@@ -26,7 +26,7 @@ def filepath(filename, ext):
     spath = f"/data/{ext}/"
     src = os.getcwd() + spath
     ext = "." + ext
-    return src + filename
+    return src + filename   
 
 def get(filename, ext):
     return open(filepath(filename, ext))
