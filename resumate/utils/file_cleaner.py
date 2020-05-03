@@ -1,10 +1,21 @@
 import os
 from pandas import read_csv
 
-""" clean sample data """
-def tsv_cleaner(filename, lst=False):
-    fpath = filepath(filename, ext='tsv')
-    data = read_csv(fpath, sep='\t')
+ext_sep = {
+    'csv' : ',',
+    'tsv' : '\t'
+}
+
+def abv_cleaner(filename, lst=False):
+    """ clean sample data """
+
+    def transform_column(data, col):
+        """ transform column data to comma separated values(csv) """
+        # "dog, cat or pig"
+        # output: "dog, cat, pig"
+        data[col] = data[col].replace(" or", ",")
+        
+    data = fileToDF(filename, ext='tsv')
 
     for index, row in data.iterrows():
         transform_column(row, 'Abbreviation')
@@ -12,13 +23,15 @@ def tsv_cleaner(filename, lst=False):
         return data.values.tolist()
     return data
 
+def fileToDF(filename, ext="csv", lst=False):
+    fpath = filepath(filename, ext=ext)
+    data = read_csv(fpath, sep = ext_sep[ext])
 
-def transform_column(data, col):
-    """ transform column data to comma separated values(csv) """
-    # "dog, cat or pig"
-    # output: "dog, cat, pig"
-    data[col] = data[col].replace(" or", ",")
-    # print(data[col])
+    if lst:
+        return data.values.tolist()
+    return data
+
+
 
 """ module to interact with text samples """
 
