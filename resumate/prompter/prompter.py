@@ -62,11 +62,13 @@ def getLabel(words):
     return labels if len(labels) > 1 else labels[0]
         
 
-label = getLabel("Apple")
-query = session.query(NERLabelWords).filter(NERLabelWords.label == label).one()
+label = getLabel(" ".join(list_of_stuff))
+print(label)
+# query = session.query(NERLabelWords).filter(NERLabelWords.label == label).one()
 
-label_word = query.words.split()[0]
-print(label_word)
+# label_word = query.words.split()[0]
+# print(label_word)
+
 
 # for token in doc:
 #     print(token.text, token.lemma_, token.pos_, token.tag_, token.dep_,
