@@ -10,7 +10,7 @@ try1 = "Amazon Web Certificate"
 try2 = "Blake got his degree 4 years ago"
 q1 = "What are some degrees/certificates you have attained?"
 
-nlp = spacy.load("en_core_web_sm")
+
 doc = nlp(q1)
 
 # for token in doc:
