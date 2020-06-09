@@ -1,6 +1,7 @@
 from resumate import nlp
 from pprint import pprint
 from spacy import displacy
+from utils import *
 from tabulate import _table_formats, tabulate
 
 class Keywords():
@@ -40,37 +41,8 @@ output = "[the ]University of Florida" # expected output
 
 doc = nlp(sentence)
 
-def visualization(style='dep'):
-    displacy.serve([doc], style=style)
-
-def noun_clusters(doc):
-    """ return noun chunks of text. in the form of: Text, Root.text, Root.Dep tag, Root.Head """
-    headers = ['Text', 'Root Text', 'Root Dep', 'Root Head Text']
-    chunks = []
-    for chunk in doc.noun_chunks:
-        chunks.append((
-            chunk.text, 
-            chunk.root.text, 
-            chunk.root.dep_,
-            chunk.root.head.text
-        )) 
-    print(tabulate(chunks, headers=headers, tablefmt='fancy_grid'))
 
 # words to look for: at, from
-def token_info(doc):
-    headers = ['Text', 'Lemma', 'POS', 'Tag', 'Dep', 'Head text', 'Head POS', 'Children']
-    results = []
-    for token in doc:
-        results.append([
-            token.text, 
-            token.lemma_, 
-            token.pos_, 
-            token.tag_,
-            token.dep_, 
-            token.head.text, 
-            token.head.pos_, 
-            [child for child in token.children]])
-    print(tabulate(results, headers=headers, tablefmt='fancy_grid'))
 
 def ne_info(doc):
     """ return info of named entities in doc in the form of:  """
@@ -86,10 +58,6 @@ def ne_info(doc):
         )) 
     print(tabulate(ents, headers=headers, tablefmt='fancy_grid'))
 
-def isNoun(token):
-    print(token.pos_)
-    return token.pos_ in ['NOUN', 'PROPN', 'PRON']
-
 # token_info(doc, view=True)
 # noun_clusters(doc, view=True)
 
@@ -104,14 +72,6 @@ def isNoun(token):
 # named entity search
 NELABELS = ['ORG']
 ne_info(doc)
-
-def entitySearch(doc):
-    """ Identify possible sources using NE labels """
-    ents = []
-    for ent in doc.ents:
-        if ent.label_ in NELABELS:
-            ents.append(ent)
-    return ents
 
 def entityCleaner(entities):
     """ clean raw entity from pipe """
