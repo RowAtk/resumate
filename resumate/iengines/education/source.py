@@ -17,25 +17,27 @@ class Keywords():
 
 class Keyword():
 
-    def __init__(self, text, pos=None, tag=None, dep=None, head=None, root=None):
+    def __init__(self, text, pos=None, tag=None, dep=None, head=None, root=None, match_case=True):
         self.text = text
         self.pos = pos
         self.tag = tag
         self.dep = dep
         self.head = head
         self.root = root
+        self.match_case = match_case
 
     def __eq__(self, token):
-        match = self.text == token.text and \
+        match = (self.text == token.text if self.match_case else self.text.lower() == token.text.lower()) and \
         (self.pos == token.pos_ if self.pos else True) and \
         (self.tag == token.tag_ if self.tag else True) and \
         (self.dep == token.dep_ if self.dep else True) and \
         (self.head == token.head.text if self.head else True)
-
+        if match: print(f"{token.text} matches with {self.text}")
         return match
 
 sentence = "I have a Masters in User Experience Design from the University of Florida from 3 years ago"
-sentence = "I got my degree from the University of Technology in Kingston Jamaica about 5 years ago"
+# sentence = "I got my degree from the University of Technology in Kingston Jamaica about 5 years ago"
+# sentence = "From Harvard in 2019"
 output = "[the ]University of Florida" # expected output
 
 doc = nlp(sentence)
@@ -87,7 +89,7 @@ def ne_info(doc):
     print(tabulate(ents, headers=headers, tablefmt='fancy_grid'))
 
 def isNoun(token):
-    print(token.pos_)
+    # print(token.pos_)
     return token.pos_ in ['NOUN', 'PROPN', 'PRON']
 
 # token_info(doc, view=True)
@@ -168,15 +170,16 @@ def sequencePipe(doc):
 
     # keywords to aid find search start
     keywords = Keywords([
-        Keyword('at', pos='ADP', dep='prep'), 
-        Keyword('from', pos='ADP', dep='prep')
+        Keyword('at', pos='ADP', match_case=False), 
+        Keyword('from', pos='ADP', match_case=False)
     ])
 
     # find start point to begin search
     start = startSearh(doc, keywords)
-
+    print(start)
     # find possible sequences(sources in this case)
-    sources = findSequence(doc[start])
+    sources = fs(doc[start])
+    pprint(sources)
 
     # choose correct sequence(source)
     source = chooseSequence(sources)
@@ -188,9 +191,10 @@ def startSearh(doc, keywords):
     """ determine where to start search for sequence using keywords """
     starts = []
     for index, token in enumerate(doc):
+        # print(token)
         if token in keywords:
             starts.append(index)
-            print(token)
+            # print(token)
     return chooseStart(starts) if starts else None
 
 def chooseStart(starts):
@@ -242,9 +246,11 @@ def sequenceSearch(token, seq, temp):
         print("HIT LEAF\n")
         return seq
     
-    temp.append(token.text)
+    lt = seq[:]
+    temp += [token.text]
     if isNoun(token):
-        seq += temp
+        lt = seq + temp
+        # seq += temp
         temp = []    
     
     print("SEQ", seq)
@@ -252,19 +258,23 @@ def sequenceSearch(token, seq, temp):
     print("CHILDREN:", list(token.children))
 
     for child in token.children:
-        pre_seq = seq
+        # pre_seq = seq
         print("CHILDREN EXIST:", child)
-        print("PRE VALS:\n",child, pre_seq,seq, temp)
-        sequenceSearch(child, pre_seq, temp)
-        print("POST VALS:\n",child, pre_seq,seq, temp)
+        print("PRE VALS:\n",child,seq, temp)
+        sequenceSearch(child, lt, temp)
+        print("POST VALS:\n",child,seq, temp)
         temp = []
     else:
         print("NO CHILLUN")
         #sequenceSearch(None, seq, temp)
-    return seq 
+    return lt 
 
 def chooseSequence(sequences):
-    return sequences[0]
+    choice = sequences[0]
+    for seq in sequences:
+        if len(seq) > len(choice):
+            return seq
+    return choice
     
 # doc = nlp("Harry is a Firetruck stuck in denial")
 # token_info(doc)
@@ -273,9 +283,39 @@ def chooseSequence(sequences):
 # findSequence(doc[start])
 
 # print("ENTITY SOURCE:", entityPipe(doc))
-print("SEQUENCE SOURCE:", sequencePipe(doc))
+# print("SEQUENCE SOURCE:", sequencePipe(doc))
 
 # token_info(doc)
 
 
-# def fs(token)
+def fs(token, seqs=[], seq=[], temp=[]):
+    
+    if not token:
+        return seqs.append(" ".join(seq))
+    print("TOKEN:", token)
+    print("POS:",token.pos_)
+    print(f"PRE VALS: {seqs} {seq} {temp}")
+    print("CHILDREN:", [child for child in token.children], end="\n\n")
+    
+    if temp == [] and seq == []: 
+        if isNoun(token): temp += [token.text] 
+    else: temp += [token.text]
+
+    lt = seq[:]
+    if isNoun(token):
+        lt += temp
+        temp = []
+
+    for child in token.children:
+        print("CHild:", child)
+        print(f"PRE VALS for child {child}: {seqs} {lt} {temp}\n")
+        fs(child, seqs, lt, temp)
+        print(f"POST VALS for child {child}: {seqs} {lt} {temp}\n")
+        temp=[]
+    else:
+        print("HIT LEAF")
+        fs(None, seqs, lt, temp)
+    return [s for s in seqs if s!= '']
+
+token_info(doc)
+print("SEQUENCE SOURCE:", sequencePipe(doc))
