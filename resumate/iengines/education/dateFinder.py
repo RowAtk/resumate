@@ -1,7 +1,7 @@
 import spacy
 
 from pprint import pprint
-from utils import *
+from resumate.utils import *
 
 nlp = spacy.load("en_core_web_sm")
 
