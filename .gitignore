@@ -134,3 +134,4 @@ dmypy.json
 # Custom
 dsmodels/
 .vscode/
+.vscode/*
