@@ -1,8 +1,8 @@
 import spacy
 import unittest
-from utils import *
+from resumate.utils import *
 
-from dateFinder import dateFinder_basic
+from resumate.resumate.iengines.education.dateFinder import dateFinder_basic
 
 nlp = spacy.load("en_core_web_sm")
 
@@ -20,5 +20,5 @@ class DateTests(unittest.TestCase):
         print(response)
         self.assertIn(expect, response)
 
-class Coreferencing(unittest.TestCase):
-    """Test coreference resolution"""
+if __name__=="__main__":
+    unittest.main()
