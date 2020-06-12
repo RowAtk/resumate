@@ -1,0 +1,19 @@
+label,words
+PERSON,Who
+NORP,what which 
+FAC,what which
+ORG,what which
+GPE,where
+LOC,where
+PRODUCT,what which
+EVENT,what
+WORK_OF_ART,what
+LAW,what
+LANGUAGE,which
+DATE,when
+TIME,when
+PERCENT,what
+MONEY,what
+QUANTITY,what
+ORDINAL,when
+CARDINAL,which
