@@ -1,3 +1,6 @@
+.DS_Store
+Thumbs.db
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -130,6 +133,9 @@ dmypy.json
 
 # Configuration
 *.ini
+
+# PyCharm
+.idea
 
 # Custom
 dsmodels/
