@@ -1,7 +1,7 @@
 import spacy
 
 from pprint import pprint
-from resumate.utils import *
+from resumate.iengines.utils import *
 
 # kinda lazy: don't want to have to run multiple files. Hence the import of dateFinder here
 from dateFinder import dateFinder_basic

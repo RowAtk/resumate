@@ -1,7 +1,7 @@
 import spacy
 
 from pprint import pprint
-from resumate.utils import *
+from resumate.iengines.utils import *
 
 nlp = spacy.load("en_core_web_sm")
 
@@ -21,3 +21,8 @@ def dateFinder_basic(doc):
 
     # can now use datetime module to make sense of all these different date presentations
     # can then convert to a standard datetime object.
+
+def dateFormatter(tokenList):
+    """Function takes a list of spacy tokens that correspond to a date and attempts to return a 
+    list of datetime objects representing the text captured in the tokens
+    """
