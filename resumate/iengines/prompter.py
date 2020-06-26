@@ -3,10 +3,6 @@ from time import sleep
 from resumate.user import User
 from resumate.iengines.core import Question
 from resumate.iengines.utils import *
-from colorama import init, Fore, Back, Style
-
-init()
-
 
 class Prompter():
     """ class to ask the real questions and get the real responses! """
@@ -33,26 +29,29 @@ class Prompter():
         """ send user greetings! """
         self.talk("Hello! I am resumate! I want to get to know you.")
 
-    def talk(self, text):
-        """ makes the prompter talk """
-        if self.speaker == 'user' or not self.speaker: # set speaker name
-            print(f'{Fore.RED}Resumate: {Style.RESET_ALL}')
+    def talk(self, text, delay=0.05):
+        """ makes the prompter talk. delay controls the delay between printing letters. """
+        # set speaker name
+        if self.speaker == 'user' or not self.speaker: 
+            printCol('Resumate: \n', color='red')
             self.speaker = 'prompter'
 
+        # print letter by letter (cli game effect)
         for letter in text:
             print(letter, end="", flush=True)
-            sleep(0.05)
-        print()
+            sleep(delay)
+        newline(1)
 
     def listen(self):
         """ hear what the user has to say """
-        name = 'You' # other logic to inlcude maybe the user's name can be placed here
-        print()
         self.speaker = 'user'
-        res = input(f'{Fore.RED}{name}: {Style.RESET_ALL}')
-        print()
+        name = 'You' # other logic to inlcude maybe the user's name can be placed here
+        newline(1)
+        printCol('You: ', color='blue')
+        res = input()
+        newline(1)
         for cue in Prompter.ABORTCUES:
-            if cue == res:
+            if cue in res:
                 self.salutation()
         return res
 

@@ -1,6 +1,9 @@
 from spacy import displacy
 from tabulate import _table_formats, tabulate
 from resumate import config
+from colorama import init, Fore, Back, Style
+
+init(autoreset=True)
 
 #========== TABULATION & VISUALIZATION ==========#
 def noun_clusters(doc):
@@ -108,6 +111,44 @@ def stripTokens(tokenlist, blacklist=['DET'], side='left'):
     
     return tokenlist
 
+
+# Console I/O
 def debug(output):
     if config.DEBUG:
         print(f'DEBUG: {output}')
+
+def printCol(output, color=None, brightness=None):
+    # set colour 
+    if color and color.lower() != 'white':
+        if color.lower() == 'red':
+            col = Fore.RED
+        if color.lower() == 'blue':
+            col = Fore.BLUE
+        if color.lower() == 'magenta':
+            col = Fore.MAGENTA
+        if color.lower() == 'yellow':
+            col = Fore.YELLOW
+        if color.lower() == 'green':
+            col = Fore.GREEN
+        if color.lower() == 'black':
+            col = Fore.BLACK
+        if color.lower() == 'cyan':
+            col = Fore.CYAN
+    else:
+        col = Fore.WHITE
+
+    # set brightness
+    if brightness and brightness.lower() != 'normal':
+        if brightness.lower() == 'bright':
+            style = Style.BRIGHT
+        if brightness.lower() == 'dim':
+            style = Style.DIM 
+    else:
+        style = Style.NORMAL
+    
+    print(col + style + output, end="")
+
+def newline(x=1):
+    """ print specified number of newline characters """
+    for i in range(x):
+        print("\n", end="")
