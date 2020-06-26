@@ -1,5 +1,5 @@
 # resumate
-Resume generation through conversion
+Resume generation through conversation
 
 ## Install packages
 $ `pip install -r requirements.txt`
