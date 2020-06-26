@@ -1,3 +1,6 @@
+import random
+from resumate.iengines.utils import *
+
 class PipeLine():
 
     def __init__(self, doc=None, pipes=[]):
@@ -7,13 +10,13 @@ class PipeLine():
     def set_doc(self, doc):
         self.doc = doc
     
-    def run(self):
-        if self.doc:
+    def run(self, doc=None):
+        if doc:
             for pipe in self.pipes:
-                output = pipe.run(self.doc)
+                output = pipe.run(doc)
                 if output:
                     return output
-            print("HEY! PipeLine unable to produce truthy result!")
+            debug("HEY! PipeLine unable to produce truthy result!")
             return None
         raise Exception("Error! no doc input given")
 
@@ -26,7 +29,7 @@ class Pipe():
     def run(self, doc):
         output = self.func(doc)
         if output:
-            print(f'Output: {output} Found by: {self.name}')
+            debug(f'Output: {output} Found by: {self.name}')
         return output
 
 class Keywords():
@@ -57,9 +60,124 @@ class Keyword():
         (self.tag == token.tag_ if self.tag else True) and \
         (self.dep == token.dep_ if self.dep else True) and \
         (self.head == token.head.text if self.head else True)
-        if match: print(f"{token.text} matches with {self.text}")
+        if match: debug(f"{token.text} matches with {self.text}")
         return match
 
-def isNoun(token):
-    # print(token.pos_)
-    return token.pos_ in ['NOUN', 'PROPN', 'PRON']
+class Question():
+    """ 
+    class representing a question. Types include:
+    q = question
+    f = follow-up Question
+    """
+    def __init__(self, text, type='q'):
+        self.text = text
+        self.type = type
+
+class QuestionPool():
+    """ class representing a question """
+    # titleQPool = ('title', [questions], [followups])
+
+    MARKER = 'x'
+    def __init__(self, questions, followups):
+        self.subject = subject
+        self.questions = questions
+        self.followups = self.consumeFollowups(followups)
+    
+    def getQuestion(self):
+        if self.questions:
+            q = random.choice(self.questions)
+            return Question(q)
+        raise Exception("Error! unable to get question. no questions provided")
+
+    def getFollowup(self, candidates):
+        if self.followups:
+            q = random.choice(self.followups[len(candidates)])
+            for i in range(len(candidates)):
+                q = q.replace(QuestionPool.MARKER, candidates[i], 1)
+            return Question(q, 'f')
+        raise Exception("Error! unable to get followup question. no followups provided")
+
+    def consumeFollowups(self, followups):
+        followDict = {}
+        for followup in followups:
+            varCount = followup.split().count(QuestionPool.MARKER)
+            followDict[varCount] = followDict[varCount] + followup if varCount in followDict else [followup]
+        return followDict
+
+    def __repr__(self):
+        return f'QuestionPool for {self.property}'
+        
+
+class IProperty():
+    """ Base class for properties in an inference Engine """
+
+    def __init__(self, name, doc=None, pipes=[], questions=[], followups=[]):
+        self.pipes = pipes
+        self.doc = doc
+        self.questionPool = QuestionPool(questions, followups) if questions else None
+
+    def set_doc(self, doc):
+        """ set input (spacy doc object) to be analyzed """
+        self.doc = doc
+
+    def set_pipes(self, pipes):
+        """ set pipes to analyze doc """
+        self.pipes = pipes
+
+    def set_questionPool(self, questions, followups=[]):
+        """ set question pool """
+        self.questionPool = QuestionPool(questions, followups)
+
+    def ask(self):
+        """ return question to ask user """
+        return self.questionPool.getQuestion()
+
+    def followup(self):
+        """ return follow-up question to ask user """
+        return self.questionPool.getFollowup()
+
+    def analyze(self, doc=None):
+        if doc and self.pipes:
+            for pipe in self.pipes:
+                output = pipe.run(doc)
+                if output:
+                    # if len(output) > 1, here is where you would ask a follow-up question for clarification
+                    return output
+            debug(f"HEY! {self.name}'s IEngine unable to produce truthy result!")
+
+            # Here is where the Property may ask another question (a repeat)
+            return None
+        raise Exception("Error! no doc input given") if not doc else Exception("Error! no pipeline provided input given")
+     
+
+class IEngine():
+    """ Base class for Inference Engines """
+    pass
+
+
+"""
+#########
+# Title #
+#########
+
+Question Pool
+--------------------
+1) what academic degrees have you attained
+2) what degrees do you have
+3) what degrees are you proud of
+
+Follow-Ups
+----------
+Clarification - when engine is unsure
+1) is ___ the name of your degree?
+2*) is ___ or ___ the name of your degree?
+3) 
+"""
+
+"""
+Ask question
+
+Engines submit follow ups
+
+Need Question Queue
+"""

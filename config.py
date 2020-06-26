@@ -29,7 +29,9 @@ class Config():
 
 class DevConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = Config.create_uri()
+
+    # uncomment line below if u want to use the database    
+    # SQLALCHEMY_DATABASE_URI = Config.create_uri()
     # SQLALCHEMY_DATABASE_URI = 'postgresql://postgresr:postgresr@localhost/resumate_knowledge'
 
 class ProdConfig(Config):

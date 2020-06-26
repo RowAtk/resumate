@@ -5,9 +5,9 @@ from resumate.iengines.core import PipeLine, Pipe, Keywords, Keyword, isNoun
 from resumate.iengines.utils import *
 
 
-# sentence = "I have a Masters in User Experience Design from the University of Florida from 3 years ago"
-sentence = "I got my degree from Northern Caribbean University in Kingston Jamaica about 5 years ago"
-sentence = "Computer"
+sentence = "I have a Masters in User Experience Design from the University of Florida from 3 years ago"
+# sentence = "I got my degree from Northern Caribbean University in Kingston Jamaica about 5 years ago"
+# sentence = "UTECH"
 output = "[the ]University of Florida" # expected output
 
 doc = nlp(sentence)
@@ -118,11 +118,11 @@ def sequenceSearch(token, seqs=[], seq=[], temp=[]):
     return [s for s in seqs if s!= '']
 
 
-sourcePipe = PipeLine(doc=doc, pipes=[
+sourcePipe = PipeLine(pipes=[
     Pipe(knowledgeBaseFinder, name="KB FINDER"),
     Pipe(entityFinder, name="ENTITY FINDER"),
     Pipe(sequenceFinder, name="SEQUENCE FINDER")
 ])
 
 # how to envoke source inferencing
-sourcePipe.run()
+sourcePipe.run(doc)

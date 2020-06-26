@@ -1,5 +1,6 @@
 from spacy import displacy
 from tabulate import _table_formats, tabulate
+from resumate import config
 
 #========== TABULATION & VISUALIZATION ==========#
 def noun_clusters(doc):
@@ -106,3 +107,7 @@ def stripTokens(tokenlist, blacklist=['DET'], side='left'):
             x -= 1
     
     return tokenlist
+
+def debug(output):
+    if config.DEBUG:
+        print(f'DEBUG: {output}')

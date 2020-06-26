@@ -1,7 +1,8 @@
 import spacy
 
 from pprint import pprint
-from utils import *
+from resumate.iengines.utils import *
+from resumate.iengines.core import PipeLine, Pipe
 
 nlp = spacy.load("en_core_web_sm")
 
@@ -18,6 +19,20 @@ def dateFinder_basic(doc):
         if ent.label_ == 'DATE':
             dates.append(ent)
     return dates
+
+datePipeLine = PipeLine(pipes=[
+    Pipe(dateFinder_basic, name="Date Finder")
+])
+
+## some other file
+# doc = nlp(Prompter.get())
+
+# PipeLine(pipes=[
+#     Pipe
+# ])
+# datePipeline.run(doc=doc)
+
+# ie.run(doc)
 
     # can now use datetime module to make sense of all these different date presentations
     # can then convert to a standard datetime object.
