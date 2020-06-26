@@ -112,6 +112,7 @@ class IProperty():
     """ Base class for properties in an inference Engine """
 
     def __init__(self, name, doc=None, pipes=[], questions=[], followups=[]):
+        self.value = None # actual value inferred
         self.pipes = pipes
         self.doc = doc
         self.questionPool = QuestionPool(questions, followups) if questions else None
@@ -142,6 +143,7 @@ class IProperty():
                 output = pipe.run(doc)
                 if output:
                     # if len(output) > 1, here is where you would ask a follow-up question for clarification
+                    self.value = output
                     return output
             debug(f"HEY! {self.name}'s IEngine unable to produce truthy result!")
 

@@ -1,5 +1,6 @@
 from spacy import displacy
 from tabulate import _table_formats, tabulate
+import pprint
 from resumate import config
 from colorama import init, Fore, Back, Style
 
@@ -152,3 +153,6 @@ def newline(x=1):
     """ print specified number of newline characters """
     for i in range(x):
         print("\n", end="")
+
+def pprint(output):
+    pprint.pprint(output)

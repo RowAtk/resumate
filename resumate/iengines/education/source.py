@@ -1,7 +1,6 @@
 from resumate import nlp
-from pprint import pprint
 from spacy import displacy
-from resumate.iengines.core import PipeLine, Pipe, Keywords, Keyword, isNoun
+from resumate.iengines.core import PipeLine, Pipe, Keywords, Keyword, isNoun, IProperty
 from resumate.iengines.utils import *
 
 
@@ -11,7 +10,7 @@ sentence = "I have a Masters in User Experience Design from the University of Fl
 output = "[the ]University of Florida" # expected output
 
 doc = nlp(sentence)
-print(doc)
+debug(doc)
 
 def knowledgeBaseFinder(doc):
     """ find source based on knowledge base """
@@ -71,10 +70,10 @@ def startSearh(doc):
     """ determine where to start search for sequence using keywords """
     starts = []
     for index, token in enumerate(doc):
-        # print(token)
+        # debug(token)
         if token in keywords:
             starts.append(index)
-            # print(token)
+            # debug(token)
     return starts if starts else [0]
 
 def chooseStart(starts):
@@ -92,10 +91,10 @@ def sequenceSearch(token, seqs=[], seq=[], temp=[]):
     """ Find source based on some sentence analysis """
     if not token:
         return seqs.append(" ".join(seq))
-    # print("TOKEN:", token)
-    # print("POS:",token.pos_)
-    # print(f"PRE VALS: {seqs} {seq} {temp}")
-    # print("CHILDREN:", [child for child in token.children], end="\n\n")
+    # debug("TOKEN:", token)
+    # debug("POS:",token.pos_)
+    # debug(f"PRE VALS: {seqs} {seq} {temp}")
+    # debug("CHILDREN:", [child for child in token.children], end="\n\n")
     
     if temp == [] and seq == []: 
         if isPOS(token, ['PROPN']): temp += [token.text] 
@@ -107,13 +106,13 @@ def sequenceSearch(token, seqs=[], seq=[], temp=[]):
         temp = []
 
     for child in token.children:
-        # print("CHild:", child)
-        # print(f"PRE VALS for child {child}: {seqs} {lt} {temp}\n")
+        # debug("CHild:", child)
+        # debug(f"PRE VALS for child {child}: {seqs} {lt} {temp}\n")
         sequenceSearch(child, seqs, lt, temp)
-        # print(f"POST VALS for child {child}: {seqs} {lt} {temp}\n")
+        # debug(f"POST VALS for child {child}: {seqs} {lt} {temp}\n")
         temp=[]
     else:
-        # print("HIT LEAF")
+        # debug("HIT LEAF")
         sequenceSearch(None, seqs, lt, temp)
     return [s for s in seqs if s!= '']
 
@@ -126,3 +125,23 @@ sourcePipe = PipeLine(pipes=[
 
 # how to envoke source inferencing
 sourcePipe.run(doc)
+
+# make IE Property
+
+sourceProp = IProperty(
+    name='source',
+    pipes=[
+        Pipe(knowledgeBaseFinder, name="KB FINDER"),
+        Pipe(entityFinder, name="ENTITY FINDER"),
+        Pipe(sequenceFinder, name="SEQUENCE FINDER")
+    ],
+    questions=[
+        'what academic degrees have you attained',
+        'what degrees do you have',
+        'what degrees are you proud of'
+    ],
+    followups=[
+        'is x the name of your degree?',
+        'is x or x the name of your degree?'
+    ]
+)
