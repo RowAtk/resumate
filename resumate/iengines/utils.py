@@ -90,7 +90,7 @@ def isPOS(token, pos_list):
 
 
 def stripTokens(tokenlist, blacklist=['DET'], side='left'):
-    """ Strip speicifed token from left and/or right of token list """
+    """ Strip specifed token from left and/or right of token list """
     # left strip
     if side == 'left' or side == 'both':
         x = 0 
