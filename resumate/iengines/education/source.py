@@ -20,9 +20,10 @@ def knowledgeBaseFinder(doc):
 def entityFinder(doc):
     """ Find source using NE Labels """
     NELABELS = ['ORG']
+    BLACKLIST = ['bachelor', 'master']
 
     # search for entities in key labels
-    entities = entitySearch(doc, NELABELS)
+    entities = entitySearch(doc, NELABELS, BLACKLIST)
 
     # clean entities of any unwanted tokens
     entities = entityCleaner(entities)
@@ -60,7 +61,7 @@ def sequenceFinder(doc):
 
     # find possible sequences(sources in this case)
     sources = sequenceSearch(doc[start])
-    pprint(sources)
+    debug(sources, pretty=True)
 
     # choose correct sequence(source)
     source = chooseSequence(sources)

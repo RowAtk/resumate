@@ -25,8 +25,8 @@ from resumate.iengines.prompter import prompter
 # Education
 # Question
 
-# queue item = 3-tuple (q, engine, prop)
-
+# queue item = 3-tuple (q, engine, object)
+# target = (enginename, obj_index)
 question_queue = []
 
 engines = [ieducation]
@@ -37,22 +37,29 @@ def run():
     for engine in engines:
         while not engine.finished:
             # store object decides how to ask question really
-            question, prop = engine.ask()
-            question_queue.append((question, engine, prop))
-            res = prompter.prompt(question_queue.pop()[0])
+            question, target = engine.ask()
+            # question_queue.append((question, target))
+            # res = prompter.prompt(question_queue.pop()[0])
+            res = prompter.prompt(question)
 
             # analyze
             doc = nlp(res)
-            analyze(doc)
-            engine.satisfiable()
+            analyze(doc, target)
+            # engine.satisfiable()
 
     debug(results, pretty=True)
 
-def analyze(doc):
+def analyze(doc, target):
     results = []
     for engine in engines:
-        data = engine.analyze(doc)
-        merge(data)
+        followup, target = engine.makeInferences(doc, target)
+        if followup:
+            res = prompter.prompt(followup)
+            # analyze
+            doc = nlp(res)
+            analyze(doc, target)
+
+        # merge(data)
     return results     
 
 

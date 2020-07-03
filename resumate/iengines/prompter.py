@@ -29,7 +29,7 @@ class Prompter():
         """ send user greetings! """
         self.talk("Hello! I am resumate! I want to get to know you.")
 
-    def talk(self, text, delay=0.05):
+    def talk(self, text, delay=0.00):
         """ makes the prompter talk. delay controls the delay between printing letters. """
         # set speaker name
         if self.speaker == 'user' or not self.speaker: 

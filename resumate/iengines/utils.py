@@ -72,11 +72,11 @@ def to_tree(token):
         result.append(list(map(to_tree, children)))
         return result
 
-def entitySearch(doc, ne_labels=[]):
+def entitySearch(doc, ne_labels=[], blacklist=[]):
     """ Identify possible sources using NE labels """
     ents = []
     for ent in doc.ents:
-        if ent.label_ in ne_labels:
+        if ent.label_ in ne_labels and ent.label_ not in blacklist:
             ents.append(ent)
     return ents
 

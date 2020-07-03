@@ -133,9 +133,9 @@ class IProperty():
         """ return question to ask user """
         return self.questionPool.getQuestion()
 
-    def followup(self):
+    def followup(self, candidates):
         """ return follow-up question to ask user """
-        return self.questionPool.getFollowup()
+        return self.questionPool.getFollowup(candidates)
 
     def analyze(self, doc=None):
         if doc and self.pipes:
@@ -148,7 +148,7 @@ class IProperty():
             debug(f"HEY! {self.name}'s IEngine unable to produce truthy result!")
 
             # Here is where the Property may ask another question (a repeat)
-            return None
+            return []
         raise Exception("Error! no doc input given") if not doc else Exception("Error! no pipeline provided input given")
      
 
@@ -174,10 +174,34 @@ class IEngine():
             return self.confirmations.getQuestion(), None
         return self.questionPool.getQuestion(), None
 
+    def findProperty(self, name):
+        for prop in self.properties:
+            if name == prop.name:
+                return prop
+        return None
+
     def isWhole(self):
         """ have i collected all my data """
         raise Exception("Error! need to implement this method")
 
+
+class Storage():
+    """ Class to represent information stored of an IE """
+
+    def isAcceptable(self):
+        """ Does object meet minimum criteria """
+        raise Exception("Error! Unimplemented method")
+
+    def merge(self, obj):
+        """ merge two storage objects together """ 
+        raise Exception("Error! Unimplemented method")
+
+    def isSame(self, obj):
+        return type(self) == type(obj)
+
+    def isComplete(self):
+        """ Does object have all values satisfied """
+        raise Exception("Error! Unimplemented method") 
 
 
 """
