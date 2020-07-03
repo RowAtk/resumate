@@ -22,6 +22,8 @@ text_basic = ["I have a Masters in User Experience Design from Stanford",
 # The last one is an experiment to consider later
 
 title_words = ["masters", "bsc", "bachelors", "degree", "doctorate", "phd", "associate"]
+loop_words = ["science", "art"] # for types of bachelors
+
 
 """
 Task List - Basic Title Finder:
@@ -31,23 +33,33 @@ Task List - Basic Title Finder:
 doc = nlp(text_basic[0])
 
 
-def titleFinder_basic(doc):
+def titleFinder_basic(doc=None, txt=""):
+    if not doc:
+        doc = nlp(txt)
     
-    # title_words = ["masters", "bsc", "bachelors", "associate", "doctorate", "phd"]
     title = []
     watch = 0
+    grp = []
 
     for token in doc:
         if token.lemma_.lower() in title_words:
             watch = 1
-            title.append(token)
+            grp.append(token)
             # Consideration here could be to skip the work 'degree' from adding to this list
         elif watch == 1 and token.dep_ == "prep":
             watch = 2
         elif watch == 2 and token.dep_ in ["compound", "pobj"]:
-            title.append(token)
+            grp.append(token)
+            if token.lemma_.lower() in loop_words:
+                watch = 1
         else:
+            if watch > 0:
+                title.append(grp)
+                grp = []
             watch = 0
+    
+    if grp != []:
+        title.append(grp)
 
     return title
         
