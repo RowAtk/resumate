@@ -2,7 +2,7 @@ import spacy
 
 from pprint import pprint
 from resumate.iengines.utils import *
-from resumate.iengines.core import PipeLine, Pipe
+from resumate.iengines.core import Pipe, IProperty
 from word2number import w2n #for converting text numbers to digits
 from datetime import datetime, timedelta
 
@@ -22,12 +22,12 @@ def dateFinder_basic(doc=None, txt=""):
     dates = []
     for ent in doc.ents:
         if ent.label_ == 'DATE':
-            dates.append(ent)
+            dobj = dateFormatter(ent)
+            if dobj:
+                dates.append(dobj)
+            else:
+                dates.append(ent)
     return dates
-
-datePipeLine = PipeLine(pipes=[
-    Pipe(dateFinder_basic, name="Date Finder")
-])
 
 ## some other file
 # doc = nlp(Prompter.get())
@@ -133,3 +133,18 @@ def test_dateFormatter(index=0, txt=""):
     print(dateFormatter(span))
     return dateFormatter(span)
 
+
+dateProp = IProperty(
+    name='date',
+    pipes=[
+        Pipe(dateFinder_basic, name="Date Finder")
+    ],
+    questions=[
+        'when did you get your degree',
+        'when did you get your # degree'
+    ],
+    followups=[
+        'is # when you got your ! degree',
+        'did you get that ! degree in #'
+    ]
+)

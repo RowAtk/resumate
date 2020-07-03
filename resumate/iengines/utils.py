@@ -114,9 +114,12 @@ def stripTokens(tokenlist, blacklist=['DET'], side='left'):
 
 
 # Console I/O
-def debug(output):
+def debug(output, pretty=False):
     if config.DEBUG:
-        print(f'DEBUG: {output}')
+        if pretty:
+            pprint.pprint(output)
+        else:
+            print(f'DEBUG: {output}')
 
 def printCol(output, color=None, brightness=None):
     # set colour 
@@ -153,6 +156,3 @@ def newline(x=1):
     """ print specified number of newline characters """
     for i in range(x):
         print("\n", end="")
-
-def pprint(output):
-    pprint.pprint(output)

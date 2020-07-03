@@ -77,9 +77,8 @@ class QuestionPool():
     """ class representing a question """
     # titleQPool = ('title', [questions], [followups])
 
-    MARKER = 'x'
+    MARKER = '#'
     def __init__(self, questions, followups):
-        self.subject = subject
         self.questions = questions
         self.followups = self.consumeFollowups(followups)
     
@@ -101,7 +100,7 @@ class QuestionPool():
         followDict = {}
         for followup in followups:
             varCount = followup.split().count(QuestionPool.MARKER)
-            followDict[varCount] = followDict[varCount] + followup if varCount in followDict else [followup]
+            followDict[varCount] = followDict[varCount].append(followup) if varCount in followDict else [followup]
         return followDict
 
     def __repr__(self):
@@ -112,6 +111,7 @@ class IProperty():
     """ Base class for properties in an inference Engine """
 
     def __init__(self, name, doc=None, pipes=[], questions=[], followups=[]):
+        self.name = name
         self.value = None # actual value inferred
         self.pipes = pipes
         self.doc = doc
@@ -154,7 +154,30 @@ class IProperty():
 
 class IEngine():
     """ Base class for Inference Engines """
-    pass
+
+    def __init__(self, name, questions, confirmations, properties):
+        self.name = name
+        self.properties = properties
+        self.questionPool = QuestionPool(questions, []) if questions else None
+        self.confirmations = QuestionPool(confirmations, []) if confirmations else None
+
+    def analyze(self, doc):
+        """ analyse doc response using properties """
+        results = {}
+        for prop in self.properties:
+            results[prop.name] = prop.analyze(doc)
+        return results
+        raise Exception("Error! need to implement this method")
+
+    def ask(self, confirmation=False):
+        if confirmation:
+            return self.confirmations.getQuestion(), None
+        return self.questionPool.getQuestion(), None
+
+    def isWhole(self):
+        """ have i collected all my data """
+        raise Exception("Error! need to implement this method")
+
 
 
 """

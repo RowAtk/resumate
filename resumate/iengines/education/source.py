@@ -40,7 +40,7 @@ def entityCleaner(entities):
 
 def entityChooser(entities):
     """ choose suitable entity from list """
-    return entities[0] if entities else []
+    return entities if entities else []
 
 ### SEQUENCE FINDER ######
 # keywords to aid find search start
@@ -81,6 +81,7 @@ def chooseStart(starts):
     return starts[0]
 
 def chooseSequence(sequences):
+    return sequences
     choice = sequences[0] if sequences else None
     for seq in sequences:
         if len(seq) > len(choice):
@@ -136,12 +137,10 @@ sourceProp = IProperty(
         Pipe(sequenceFinder, name="SEQUENCE FINDER")
     ],
     questions=[
-        'what academic degrees have you attained',
-        'what degrees do you have',
-        'what degrees are you proud of'
+        'where did you get your degree'
     ],
     followups=[
-        'is x the name of your degree?',
-        'is x or x the name of your degree?'
+        'where did you get your # degree',
+        'did you get your # degree from !'
     ]
 )

@@ -1,13 +1,9 @@
-import spacy
+from resumate import nlp
 
 from pprint import pprint
 from resumate.iengines.utils import *
+from resumate.iengines.core import Pipe, IProperty
 
-# kinda lazy: don't want to have to run multiple files. Hence the import of dateFinder here
-from dateFinder import dateFinder_basic, datePipeLine, text
-
-
-nlp = spacy.load("en_core_web_sm")
 
 # text = "I have a Masters in User Experience Design from Stanford. I also got a BSc in Software Engineering"
 # text = "I went to Stanford and got a Masters Degree."
@@ -87,6 +83,21 @@ def titleFinder(doc):
                         titles.append((c, True))
     print(titles)
     return titles
+
+
+titleProp = IProperty(
+    name='title',
+    pipes=[
+        Pipe(titleFinder_basic, name='titleFinder')
+    ],
+    questions=[
+        'what is the name of your degree'
+    ],
+    followups=[
+        'is # the name of your degree',
+        '# is your degree'
+    ]
+)
 
 
 

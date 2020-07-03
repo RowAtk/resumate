@@ -113,5 +113,4 @@ class Prompter():
         return prompt[0].upper() + prompt[1:]
 
 
-p = Prompter()
-p.meeting()
+prompter = Prompter()
