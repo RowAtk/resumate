@@ -21,7 +21,7 @@ text_basic = ["I have a Masters in User Experience Design from Stanford",
 
 # The last one is an experiment to consider later
 
-title_words = ["masters", "bsc", "bachelors", "degree", "doctorate", "phd", "associate"]
+title_words = ["masters", "master", "bsc", "bachelors", "bachelor", "degree", "doctorate", "phd", "associate"]
 loop_words = ["science", "art"] # for types of bachelors
 
 
@@ -46,7 +46,8 @@ def titleFinder_basic(doc=None, txt=""):
             watch = 1
             grp.append(token)
             # Consideration here could be to skip the work 'degree' from adding to this list
-        elif watch == 1 and token.dep_ == "prep":
+            # Skip 'at' and 'from' to avoid scenario 'I have a Bachelors in Computer Science from UWI' including UWI as a title
+        elif watch == 1 and token.dep_ == "prep" and token.dep_ not in ["at", "from"]:
             watch = 2
         elif watch == 2 and token.dep_ in ["compound", "pobj"]:
             grp.append(token)
@@ -110,9 +111,5 @@ titleProp = IProperty(
         '# is your degree'
     ]
 )
-
-
-
-
 
 
