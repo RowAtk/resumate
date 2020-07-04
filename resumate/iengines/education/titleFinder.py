@@ -47,7 +47,7 @@ def titleFinder_basic(doc=None, txt=""):
             grp.append(token)
             # Consideration here could be to skip the work 'degree' from adding to this list
             # Skip 'at' and 'from' to avoid scenario 'I have a Bachelors in Computer Science from UWI' including UWI as a title
-        elif watch == 1 and token.dep_ == "prep" and token.dep_ not in ["at", "from"]:
+        elif watch == 1 and token.dep_ == "prep" and token.text not in ["at", "from"]:
             watch = 2
         elif watch == 2 and token.dep_ in ["compound", "pobj"]:
             grp.append(token)
