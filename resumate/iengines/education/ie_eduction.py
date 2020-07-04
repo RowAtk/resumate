@@ -58,6 +58,7 @@ class Degree(Storage):
 
     def missingValues(self):
         missing = []
+        existing = []
         if self.title[1] == None:
             missing.append(self.title[0])
 
@@ -104,18 +105,21 @@ class IE_Education(IEngine):
         return results
 
     def makeInferences(self, doc, target):
+        debug(f'ACCEPTED target: {target}')
         results = self.analyze(doc)
         degrees = self.makeObjects(results)
         if target and target[0] == self.name:
             # this engine is target
             target_data = degrees.pop(0)
-            self.degrees[target].merge(target_data)
+            self.degrees[target[1]].merge(target_data)
         else:
             self.degrees += degrees
         followup, target = self.evaluate()
         return followup, target
 
     def evaluate(self):
+        target = None
+        followup = None
         completeCount = 0
         for degree in self.degrees:
             debug(degree)
@@ -132,11 +136,11 @@ class IE_Education(IEngine):
                 missing = degree.missingValues()
                 for prop in missing:
                     iprop = self.findProperty(prop)
-                    followup = iprop.ask()
-                    target = i
-
-            return followup, target
-        return None, None
+                    followup = iprop.ask(candidates=[degree.title])
+                    target = (self.name, i)
+                    debug(f'target_index: {target}')
+                    return followup, target
+        return followup, target
     
     def makeObjects(self, results):
         # I have a degree in CS and a MBA

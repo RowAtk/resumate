@@ -10,7 +10,7 @@ sentence = "I have a Masters in User Experience Design from the University of Fl
 output = "[the ]University of Florida" # expected output
 
 doc = nlp(sentence)
-debug(doc)
+# debug(doc)
 
 def knowledgeBaseFinder(doc):
     """ find source based on knowledge base """
@@ -20,7 +20,7 @@ def knowledgeBaseFinder(doc):
 def entityFinder(doc):
     """ Find source using NE Labels """
     NELABELS = ['ORG']
-    BLACKLIST = ['bachelor', 'master']
+    BLACKLIST = ['bachelor', 'master', 'marine life biology']
 
     # search for entities in key labels
     entities = entitySearch(doc, NELABELS, BLACKLIST)
@@ -61,7 +61,7 @@ def sequenceFinder(doc):
 
     # find possible sequences(sources in this case)
     sources = sequenceSearch(doc[start])
-    debug(sources, pretty=True)
+    # debug(sources, pretty=True)
 
     # choose correct sequence(source)
     source = chooseSequence(sources)
@@ -82,7 +82,7 @@ def chooseStart(starts):
     return starts[0]
 
 def chooseSequence(sequences):
-    return sequences
+    # return sequences
     choice = sequences[0] if sequences else None
     for seq in sequences:
         if len(seq) > len(choice):
@@ -138,7 +138,8 @@ sourceProp = IProperty(
         Pipe(sequenceFinder, name="SEQUENCE FINDER")
     ],
     questions=[
-        'where did you get your degree'
+        'where did you get your degree',
+        'where did you get your # degree from'
     ],
     followups=[
         'where did you get your # degree',

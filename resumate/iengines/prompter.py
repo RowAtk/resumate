@@ -57,8 +57,8 @@ class Prompter():
 
     def salutation(self):
         """ Tell em goodbye! """
-        name = self.user.fullname if self.user.fullname else ' '
-        self.talk(f"It was a pleasure speaking with you. Goodbye {name}.")
+        name = self.user.fullname if self.user.fullname else ''
+        self.talk(f"It was a pleasure speaking with you. Goodbye{' ' + name}.")
         exit(0)
 
     def setup(self):

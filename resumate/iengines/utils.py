@@ -76,7 +76,7 @@ def entitySearch(doc, ne_labels=[], blacklist=[]):
     """ Identify possible sources using NE labels """
     ents = []
     for ent in doc.ents:
-        if ent.label_ in ne_labels and ent.label_ not in blacklist:
+        if ent.label_ in ne_labels and ent.label_.lower() not in blacklist:
             ents.append(ent)
     return ents
 

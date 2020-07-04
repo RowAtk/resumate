@@ -79,14 +79,21 @@ class QuestionPool():
 
     MARKER = '#'
     def __init__(self, questions, followups):
-        self.questions = questions
+        self.questions = self.consumeFollowups(questions)
+        
         self.followups = self.consumeFollowups(followups)
     
-    def getQuestion(self):
+    def getQuestion(self, candidates):
         if self.questions:
-            q = random.choice(self.questions)
+            debug(len(candidates))
+            # q = random.choice(self.questions[len(candidates)])
+            debug(self.questions)
+            q = self.questions[len(candidates)][0]
+            for i in range(len(candidates)):
+                candidates = [str(candidate) for candidate in candidates]
+                q = q.replace(QuestionPool.MARKER, candidates[i], 1)
             return Question(q)
-        raise Exception("Error! unable to get question. no questions provided")
+        raise Exception("Error! unable to get followup question. no followups provided")
 
     def getFollowup(self, candidates):
         if self.followups:
@@ -129,9 +136,9 @@ class IProperty():
         """ set question pool """
         self.questionPool = QuestionPool(questions, followups)
 
-    def ask(self):
+    def ask(self, candidates):
         """ return question to ask user """
-        return self.questionPool.getQuestion()
+        return self.questionPool.getQuestion(candidates)
 
     def followup(self, candidates):
         """ return follow-up question to ask user """
@@ -171,8 +178,8 @@ class IEngine():
 
     def ask(self, confirmation=False):
         if confirmation:
-            return self.confirmations.getQuestion(), None
-        return self.questionPool.getQuestion(), None
+            return self.confirmations.getQuestion([]), None
+        return self.questionPool.getQuestion([]), None
 
     def findProperty(self, name):
         for prop in self.properties:
