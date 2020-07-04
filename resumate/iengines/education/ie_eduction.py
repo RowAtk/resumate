@@ -43,15 +43,15 @@ class Degree(Storage):
     def merge(self, obj):
         if self.isSame(obj):
             if self.title[1] == None:
-                self.title[1] = obj.title
+                self.title[1] = obj.title[1]
                 obj.title = None
             
             if self.source[1] == None:
-                self.source[1] = obj.source
+                self.source[1] = obj.source[1]
                 obj.source = None
 
             if self.date[1] == None:
-                self.date[1] = obj.date
+                self.date[1] = obj.date[1]
                 obj.date = None
             return obj
         raise Exception("Two Objects are of different types! Can't Megre!")
@@ -73,11 +73,11 @@ class Degree(Storage):
 
     def isAcceptable(self):
         """ Does object meet minimum criteria """
-        return self.title != None and self.source != None
+        return self.title[1] != None and self.source[1] != None
 
     def isComplete(self):
         """ Does object have all values satisfied """
-        return self.title != None and self.source != None and self.date != None
+        return self.title[1] != None and self.source[1] != None and self.date[1] != None
 
     def __repr__(self):
         return f'<Degree title={self.title}, source={self.source}, date={self.date}>'
@@ -99,16 +99,16 @@ class IE_Education(IEngine):
         """ analyse doc response using properties """
         results = {}
         for prop in self.properties:
-            debug(prop.analyze(doc))
+            # debug(prop.analyze(doc))
             results[prop.name] = prop.analyze(doc)
-        debug(results)
+        # debug(results)
         return results
 
     def makeInferences(self, doc, target):
-        debug(f'ACCEPTED target: {target}')
+        # debug(f'ACCEPTED target: {target}')
         results = self.analyze(doc)
         degrees = self.makeObjects(results)
-        if target and target[0] == self.name:
+        if degrees and target and target[0] == self.name:
             # this engine is target
             target_data = degrees.pop(0)
             self.degrees[target[1]].merge(target_data)
@@ -126,19 +126,21 @@ class IE_Education(IEngine):
             if degree.isAcceptable():
                 completeCount += 1
         debug(completeCount)
-        if completeCount >= 2:
+
+        if completeCount >= 1:
             self.satisfiable()
         
         if not self.finished:
+            debug("Searching for followups")
             # look for missing data
-            
             for i, degree in enumerate(self.degrees):
                 missing = degree.missingValues()
+                debug(f"Missing props: {missing}")
                 for prop in missing:
                     iprop = self.findProperty(prop)
                     followup = iprop.ask(candidates=[degree.title])
                     target = (self.name, i)
-                    debug(f'target_index: {target}')
+                    # debug(f'target_index: {target}')
                     return followup, target
         return followup, target
     

@@ -55,17 +55,18 @@ def sequenceFinder(doc):
     """ steps to find source using sequence hunting """
     # find start point to begin search
     starts = startSearh(doc)
+    if starts:
+        # choose approppriate start point
+        start = chooseStart(starts)
 
-    # choose approppriate start point
-    start = chooseStart(starts)
+        # find possible sequences(sources in this case)
+        sources = sequenceSearch(doc[start])
+        # debug(sources, pretty=True)
 
-    # find possible sequences(sources in this case)
-    sources = sequenceSearch(doc[start])
-    # debug(sources, pretty=True)
-
-    # choose correct sequence(source)
-    source = chooseSequence(sources)
-    return source
+        # choose correct sequence(source)
+        source = chooseSequence(sources)
+        return source
+    return None
 
 def startSearh(doc):
     """ determine where to start search for sequence using keywords """
@@ -75,7 +76,7 @@ def startSearh(doc):
         if token in keywords:
             starts.append(index)
             # debug(token)
-    return starts if starts else [0]
+    return starts if starts else None
 
 def chooseStart(starts):
     """ choose correct starting point """
@@ -126,7 +127,7 @@ sourcePipe = PipeLine(pipes=[
 ])
 
 # how to envoke source inferencing
-sourcePipe.run(doc)
+# sourcePipe.run(doc)
 
 # make IE Property
 

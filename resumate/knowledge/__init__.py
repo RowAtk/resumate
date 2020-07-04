@@ -6,7 +6,8 @@ from sqlalchemy.orm import sessionmaker
 # from resumate.knowledge.db import 
 
 print(config.SQLALCHEMY_DATABASE_URI)
-engine = create_engine(config.SQLALCHEMY_DATABASE_URI) # connection
+# engine = create_engine(config.SQLALCHEMY_DATABASE_URI) # connection
+engine = None
 
 Session = sessionmaker(bind=engine) # db.session
 

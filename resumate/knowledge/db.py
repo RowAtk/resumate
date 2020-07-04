@@ -33,9 +33,9 @@ def fillWithKnowledge():
 
 
 #recreate db
-recreate_database()
+# recreate_database()
 
 # create new session
-session = Session()
-fillWithKnowledge()
-session.close()
+# session = Session()
+# fillWithKnowledge()
+# session.close()

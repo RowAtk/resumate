@@ -85,10 +85,8 @@ class QuestionPool():
     
     def getQuestion(self, candidates):
         if self.questions:
-            debug(len(candidates))
-            # q = random.choice(self.questions[len(candidates)])
-            debug(self.questions)
-            q = self.questions[len(candidates)][0]
+            q = random.choice(self.questions[len(candidates)])
+            # q = self.questions[len(candidates)][0]
             for i in range(len(candidates)):
                 candidates = [str(candidate) for candidate in candidates]
                 q = q.replace(QuestionPool.MARKER, candidates[i], 1)
@@ -152,7 +150,7 @@ class IProperty():
                     # if len(output) > 1, here is where you would ask a follow-up question for clarification
                     self.value = output
                     return output
-            debug(f"HEY! {self.name}'s IEngine unable to produce truthy result!")
+            debug(f"HEY! {self.name} IProperty unable to produce truthy result!")
 
             # Here is where the Property may ask another question (a repeat)
             return []
