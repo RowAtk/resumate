@@ -39,28 +39,29 @@ def titleFinder_basic(doc=None, txt=""):
     
     title = []
     watch = 0
-    grp = []
+    grp = ""
 
     for token in doc:
         if token.lemma_.lower() in title_words:
             watch = 1
-            grp.append(token)
+            grp = grp + token.text.title() + " "
             # Consideration here could be to skip the work 'degree' from adding to this list
             # Skip 'at' and 'from' to avoid scenario 'I have a Bachelors in Computer Science from UWI' including UWI as a title
         elif watch == 1 and token.dep_ == "prep" and token.text not in ["at", "from"]:
             watch = 2
+            grp = grp + token.text + " "
         elif watch == 2 and token.dep_ in ["compound", "pobj"]:
-            grp.append(token)
+            grp = grp + token.text.title() + " "
             if token.lemma_.lower() in loop_words:
                 watch = 1
         else:
             if watch > 0:
-                title.append(grp)
-                grp = []
+                title.append(grp.strip())
+                grp = ""
             watch = 0
     
-    if grp != []:
-        title.append(grp)
+    if grp != "":
+        title.append(grp.strip())
 
     return title
         
