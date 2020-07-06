@@ -33,7 +33,7 @@ class Prompter():
         """ makes the prompter talk. delay controls the delay between printing letters. """
         # set speaker name
         if self.speaker == 'user' or not self.speaker: 
-            printCol('Resumate: \n', color='red')
+            printCol('Resumate: \n', color='magenta', brightness='bright')
             self.speaker = 'prompter'
 
         # print letter by letter (cli game effect)
@@ -47,7 +47,7 @@ class Prompter():
         self.speaker = 'user'
         name = 'You' # other logic to inlcude maybe the user's name can be placed here
         newline(1)
-        printCol('You: ', color='blue')
+        printCol('You: ', color='blue', brightness='bright')
         res = input()
         newline(1)
         for cue in Prompter.ABORTCUES:
@@ -111,6 +111,5 @@ class Prompter():
         
         prompt = starter + question.text + ending + '?'
         return prompt[0].upper() + prompt[1:]
-
 
 prompter = Prompter()

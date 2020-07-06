@@ -1,6 +1,5 @@
 from resumate import nlp
-from spacy import displacy
-from resumate.iengines.core import PipeLine, Pipe, Keywords, Keyword, isNoun, IProperty
+from resumate.iengines.core import Pipe, Keywords, Keyword, isNoun, IProperty
 from resumate.iengines.utils import *
 
 
@@ -10,7 +9,6 @@ sentence = "I have a Masters in User Experience Design from the University of Fl
 output = "[the ]University of Florida" # expected output
 
 doc = nlp(sentence)
-# debug(doc)
 
 def knowledgeBaseFinder(doc):
     """ find source based on knowledge base """
@@ -72,10 +70,8 @@ def startSearh(doc):
     """ determine where to start search for sequence using keywords """
     starts = []
     for index, token in enumerate(doc):
-        # debug(token)
         if token in keywords:
             starts.append(index)
-            # debug(token)
     return starts if starts else None
 
 def chooseStart(starts):
@@ -94,10 +90,6 @@ def sequenceSearch(token, seqs=[], seq=[], temp=[]):
     """ Find source based on some sentence analysis """
     if not token:
         return seqs.append(" ".join(seq))
-    # debug("TOKEN:", token)
-    # debug("POS:",token.pos_)
-    # debug(f"PRE VALS: {seqs} {seq} {temp}")
-    # debug("CHILDREN:", [child for child in token.children], end="\n\n")
     
     if temp == [] and seq == []: 
         if isPOS(token, ['PROPN']): temp += [token.text] 
@@ -109,28 +101,13 @@ def sequenceSearch(token, seqs=[], seq=[], temp=[]):
         temp = []
 
     for child in token.children:
-        # debug("CHild:", child)
-        # debug(f"PRE VALS for child {child}: {seqs} {lt} {temp}\n")
         sequenceSearch(child, seqs, lt, temp)
-        # debug(f"POST VALS for child {child}: {seqs} {lt} {temp}\n")
         temp=[]
     else:
-        # debug("HIT LEAF")
         sequenceSearch(None, seqs, lt, temp)
     return [s for s in seqs if s!= '']
 
-
-sourcePipe = PipeLine(pipes=[
-    Pipe(knowledgeBaseFinder, name="KB FINDER"),
-    Pipe(entityFinder, name="ENTITY FINDER"),
-    Pipe(sequenceFinder, name="SEQUENCE FINDER")
-])
-
-# how to envoke source inferencing
-# sourcePipe.run(doc)
-
 # make IE Property
-
 sourceProp = IProperty(
     name='source',
     pipes=[
@@ -140,10 +117,10 @@ sourceProp = IProperty(
     ],
     questions=[
         'where did you get your degree',
-        'where did you get your # degree from'
+        'where did you get your # degree'
     ],
     followups=[
-        'where did you get your # degree',
-        'did you get your # degree from !'
+        'was it ! where you got your # degree',
+        'did you get your # degree from !',
     ]
 )

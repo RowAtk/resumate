@@ -1,3 +1,10 @@
-from resumate import driver
+import sys
+from resumate import driver, config
 
-driver.run()
+def main():
+    args = sys.argv
+    if '-d' in args:
+        config.DEBUG = True
+    driver.run()
+
+main()

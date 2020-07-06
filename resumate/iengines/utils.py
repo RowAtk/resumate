@@ -119,7 +119,9 @@ def debug(output, pretty=False):
         if pretty:
             pprint.pprint(output)
         else:
-            print(f'DEBUG: {output}')
+            printCol('DEBUG: ', color='red')
+            printCol(output, brightness='dim')
+            print()
 
 def printCol(output, color=None, brightness=None):
     # set colour 
@@ -150,6 +152,7 @@ def printCol(output, color=None, brightness=None):
     else:
         style = Style.NORMAL
     
+    output = str(output)
     print(col + style + output, end="")
 
 def newline(x=1):

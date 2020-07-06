@@ -29,16 +29,6 @@ def dateFinder_basic(doc=None, txt=""):
                 dates.append(ent)
     return dates
 
-## some other file
-# doc = nlp(Prompter.get())
-
-# PipeLine(pipes=[
-#     Pipe
-# ])
-# datePipeline.run(doc=doc)
-
-# ie.run(doc)
-
     # can now use datetime module to make sense of all these different date presentations
     # can then convert to a standard datetime object.
 

@@ -28,7 +28,7 @@ class Config():
 
 
 class DevConfig(Config):
-    DEBUG = True
+    DEBUG = False
 
     # uncomment line below if u want to use the database    
     # SQLALCHEMY_DATABASE_URI = Config.create_uri()
