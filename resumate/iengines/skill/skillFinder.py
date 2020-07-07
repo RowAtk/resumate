@@ -49,7 +49,7 @@ def webTechFrameworkFinder(doc=None, txt=''):
     if not doc:
         doc = nlp(txt)
     
-    return skillFinder(doc, srch="Prog Web Tech & Framework")
+    return skillFinder(doc, srch="Web Tech & Framework")
     
 def scriptFinder(doc=None, txt=''):
     """Takes a doc object (or string) and finds any Scripts in the string. Returns a list of strings"""
@@ -85,16 +85,17 @@ def skillFinder(doc=None, srch=""):
     """Takes a doc object, and a search key and attempts to interpret skills implied in the string. Returns a list, or 
     None if no skill found"""
     if not doc:
-        doc = nlp(txt)
+        doc = nlp(text)
 
     res = []
-
+    keywords = skillsDict[srch] if srch else skillsDict.values()
+    debug(f'KEYWORDS: {keywords}')
     for token in doc:
-        for key, val in skillsDict.items():
-            for s in val:
-                if s.lower() == token.text.lower():
-                    res.append(s)
+        for val in keywords:
+            if val.lower() == token.text.lower():
+                res.append(val)
     
+    debug(f'Skill Result: {res}')
     if res:
         return res
     return None

@@ -3,13 +3,14 @@ from resumate.iengines.utils import *
 
 # import and register all IEngines 
 from resumate.iengines.education.ie_eduction import ieducation
+from resumate.iengines.skill.ie_skill import ieskills
 
 # import prompter
 from resumate.iengines.prompter import prompter
 
 # target = (enginename, obj_index)
 
-engines = [ieducation] # list all engines in order to be executed
+engines = [ieducation, ieskills] # list all engines in order to be executed
 
 def run():
     # prompter.meeting()

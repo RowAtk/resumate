@@ -4,7 +4,6 @@ from resumate.iengines.education.source import sourceProp
 from resumate.iengines.education.titleFinder import titleProp
 from resumate.iengines.education.dateFinder import dateProp
 from resumate.iengines.utils import *
-from resumate.iengines.prompter import prompter
 
 properties = [
     titleProp,
@@ -15,6 +14,10 @@ properties = [
 questions = [
     "what academic degrees have you attained",
     "tell me about some of your degrees"
+]
+
+mquestions = [
+
 ]
 
 confirmations = [
@@ -40,8 +43,11 @@ class Degree(IObject):
                 return False
         return True
 
+    def default_candidates(self):
+        return [self.properties['title']] if self.properties['title'] else []
+
     def __repr__(self):
-        return f'<Degree title={self.properties["title"]}, source={self.properties["source"]}, date={self.properties["date"]}>'
+        return f'<Degree title={self.properties[titleProp.name]}, source={self.properties[sourceProp.name]}, date={self.properties[dateProp.name]}>'
 
 class IE_Education(IEngine):
     """ Inference Engine for Education """

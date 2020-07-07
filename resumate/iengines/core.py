@@ -251,7 +251,7 @@ class IEngine():
                 for prop in missing:
                     iprop = self.findProperty(prop)
                     debug(iprop)
-                    candidates = [existing[0]] if existing else []
+                    candidates = obj.default_candidates()
                     debug(candidates)
                     followup = iprop.ask(candidates=candidates)
                     target = (self.name, i)
@@ -266,10 +266,14 @@ class IObject():
     def __init__(self, properties):
         self.properties = properties
         self.qcount = 1
+        self.quota = 3
 
     def isAcceptable(self):
         """ Does object meet minimum criteria """
         raise Exception("Error! Unimplemented method")
+
+    def default_candidates(self):
+        return Exception("Error! Unimplemented method")
 
     def merge(self, obj):
         """ merge two storage objects together """
@@ -292,7 +296,7 @@ class IObject():
         return True
 
     def exhausted(self):
-        if self.qcount > 3:
+        if self.qcount > self.quota:
             return True
         return False 
     

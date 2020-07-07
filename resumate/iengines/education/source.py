@@ -117,10 +117,10 @@ sourceProp = IProperty(
     ],
     questions=[
         'where did you get your degree',
-        'where did you get your # degree'
+        'where did you get your #'
     ],
     followups=[
-        'was it ! where you got your # degree',
-        'did you get your # degree from !',
+        'was it ! where you got your #',
+        'did you get your # from !',
     ]
 )
