@@ -1,12 +1,10 @@
-import spacy
+from resumate import nlp
 
 from pprint import pprint
 from resumate.iengines.utils import *
 from resumate.iengines.core import Pipe, IProperty
 from word2number import w2n #for converting text numbers to digits
 from datetime import datetime, timedelta
-
-nlp = spacy.load("en_core_web_sm")
 
 text = ["I got my Masters in User Experience Design last September",
         "I got a BSc in Software Engineering a year ago",
