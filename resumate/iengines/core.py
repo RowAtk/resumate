@@ -150,7 +150,7 @@ class IProperty():
 class IEngine():
     """ Base class for Inference Engines """
 
-    def __init__(self, name, questions, confirmations, properties, objType, quota):
+    def __init__(self, name, questions, confirmations, properties, objType, quota, isGlobal = False):
         self.name = name # unique identifier for an Inference engine
         self.properties = properties # inference propert engines to analyze and ask questions
         self.questionPool = QuestionPool(questions, confirmations) if questions else None
@@ -158,6 +158,7 @@ class IEngine():
         self.quota = quota # acceptable object quota
         self.finished = False # do we stop asking questions from this IEngine
         self.iobjects = [] # actual information colected from analysis
+        self.isGlobal = isGlobal # determines if the engine should be scanning results while oher engines are running
 
     def analyze(self, doc):
         """ analyse doc response using properties """
