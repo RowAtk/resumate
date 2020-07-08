@@ -146,6 +146,8 @@ class IProperty():
     def __repr__(self):
         return f'<IPropertyEngine name={self.name}>'
      
+yesphrases = ['yes', 'ok', 'sure', 'yeah', 'fine', 'yup', 'yep', 'let\'s go on']
+nophrases = ['no', 'nope', 'nah', 'no thanks', 'negative', 'nay', 'not really', 'negi']
 
 class IEngine():
     """ Base class for Inference Engines """
@@ -179,17 +181,22 @@ class IEngine():
             confirmation = self.questionPool.getFollowup([])
             res = TextBlob(prompter.prompt(confirmation))
             debug(f'Response polarity: {res.polarity}')
-            debug(res.raw)
             # Neg - means user does not want to continue talking with this engine
             if res.sentiment.polarity == 0:
-                if 'no' in res.raw.lower(): # negative response
+                if res.raw.lower() in nophrases: # negative response
                     debug("NO DETECTED") 
                     self.finished = True
-                elif 'yes' in res.raw.lower():
+                elif res.raw.lower() in yesphrases:
                     debug("YES DETECTED") 
                     unsure = False
+                else:
+                    # dont know what user said
+                    pass
             elif res.polarity <= 0: # negative response 
                 self.finished = True 
+            else:
+                # 
+                unsure = False
 
     def isAcceptable(self):
         """ has the quota for acceptable onjects been met """
@@ -208,7 +215,7 @@ class IEngine():
                 return prop
         return None
 
-    def makeInferences(self, doc, target, prompter):
+    def makeInferences(self, doc, target):
         """ make inferences from a doc object and self evaluate based on information collected thus far """
         # debug(f'ACCEPTED target: {target}')
         results = self.analyze(doc)
@@ -219,8 +226,6 @@ class IEngine():
             self.iobjects[target[1]].merge(target_data)
         else:
             self.iobjects += iobjs
-        followup, target = self.evaluate(prompter)
-        return followup, target
 
     def makeObjects(self, results):  
         """ Make IObjects from analysis results """    
