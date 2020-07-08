@@ -30,8 +30,6 @@ Task List - Basic Title Finder:
 1) Only degree titles. Extract from sentences in the form ...{Degree Title} in {Subject}.
 """
 
-doc = nlp(text_basic[0])
-
 
 def titleFinder_basic(doc=None, txt=""):
     if not doc:
