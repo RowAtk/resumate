@@ -81,6 +81,10 @@ class IE_Project(IEngine):
         prop = self.properties[0]
         return prop.ask([]), [self.name, -1]
     
+    # def makeObjects(self, results):
+    #     obj = Project(results)
+    #     return [obj]
+    
 
 ieproject = IE_Project(
     name = 'project',

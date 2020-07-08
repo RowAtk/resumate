@@ -218,9 +218,10 @@ class IEngine():
 
     def makeInferences(self, doc, target):
         """ make inferences from a doc object and self evaluate based on information collected thus far """
-        # debug(f'ACCEPTED target: {target}')
+        debug(f'ACCEPTED target: {target}')
         results = self.analyze(doc)
         iobjs = self.makeObjects(results)
+        debug(f'IObjects: {iobjs}')
         if iobjs and target and target[0] == self.name:
             # this engine is target
             target_data = iobjs.pop(0)

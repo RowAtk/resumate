@@ -15,6 +15,7 @@ from resumate.iengines.prompter import prompter
 # target = (enginename, obj_index)
 
 engines = [ieducation, ieskills, ieproject]  # list all engines in order to be executed
+# engines = [ieproject] 
 globalengines = [engine for engine in engines if engine.isGlobal]
 
 def run():
@@ -34,7 +35,7 @@ def run():
         pre = user.firstname
     else:
         pre = ""
-    createDoc(f"resumate.docx", user = user)
+    createDoc(pre + "resumate.docx", user = user)
 
 
 def analyze(res, mainengine, target):

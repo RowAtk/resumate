@@ -56,19 +56,23 @@ def createDoc(filename, user):
     document.add_heading('Projects', 1)
 
     projects = ieproject.iobjects
-    print(projects)
+    document.add_heading('Work in Progress', 2)
     for proj in projects:
-        document.add_heading(f'{proj.properties["proj title"][0]}', 2)
-        document.add_paragraph(f'Date: {proj.properties["date proj"][0].strftime("%Y")}')
-        projhelp(document, proj.properties["role"], "Role")
-        projhelp(document, proj.properties["description"], "Description")
-        projhelp(document, proj.properties["achieve"], "Achievements")
+        document.add_paragraph(str(proj))
+        
+    print(projects)
+#     for proj in projects:
+#         document.add_heading(f'{proj.properties["proj title"]}', 2)
+#         document.add_paragraph(f'Date: {proj.properties["date proj"].strftime("%Y")}')
+#         projhelp(document, proj.properties["role"], "Role")
+#         projhelp(document, proj.properties["description"], "Description")
+#         projhelp(document, proj.properties["achieve"], "Achievements")
 
     document.save(filename)
 
-def projhelp(document, prop, title):
-    document.add_heading(f'{title}:', 3)
-    for val in prop:
-        if val:
-            p = document.add_paragraph('', style="List Bullet")
-            p.add_run(f'{val}')
+# def projhelp(document, prop, title):
+#     document.add_heading(f'{title}:', 3)
+#     for val in prop:
+#         if val:
+#             p = document.add_paragraph('', style="List Bullet")
+#             p.add_run(f'{val}')
