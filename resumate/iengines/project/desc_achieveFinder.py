@@ -30,10 +30,11 @@ def desc_achFinder(doc=None, txt=""):
         else:
             t.append(token.text)
 
-    t = " ".join(t)
-    t = t.strip(".")
-    t = t.strip()
-    t = t.split(" . ")
+    if t:
+        t = " ".join(t)
+        t = t.strip(".")
+        t = t.strip()
+        t = t.split(" . ")
     return t
 
 descProp = IProperty(

@@ -35,6 +35,7 @@ class Project(IObject):
 
     def __init__(self, properties):
         super().__init__(properties) 
+        debug(list(self.properties.items()))
         self.quota = 7       
 
     def isAcceptable(self):
@@ -47,9 +48,14 @@ class Project(IObject):
         return True
 
     def merge(self, obj):
+        # debug(obj)
         if self.isSame(obj):
             for prop, val in self.properties.items():
+                debug(f'VAL: {val}')
                 if not val:
+                    print("NOT VAL")
+                    debug(f'OBJECT PROPS: {obj.properties}')
+                    debug(f"PROP VAL: {obj.properties[prop]}")
                     self.properties[prop] = obj.properties[prop]
                     break
         else:
@@ -59,7 +65,7 @@ class Project(IObject):
         title = [self.properties['proj title']] if self.properties['proj title'] else []
         empty = []
         c = [title, empty]
-        return random.choice(c)
+        return random.choice(c[0])
 
     def __repr__(self):
         title = self.properties['proj title']
@@ -81,9 +87,10 @@ class IE_Project(IEngine):
         prop = self.properties[0]
         return prop.ask([]), [self.name, -1]
     
-    # def makeObjects(self, results):
-    #     obj = Project(results)
-    #     return [obj]
+    def makeObjects(self, results):
+        obj = Project(results)
+        debug(obj)
+        return [obj]
     
 
 ieproject = IE_Project(
