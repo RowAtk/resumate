@@ -41,7 +41,7 @@ class Keyword():
         (self.tag == token.tag_ if self.tag else True) and \
         (self.dep == token.dep_ if self.dep else True) and \
         (self.head == token.head.text if self.head else True)
-        if match: debug(f"{token.text} matches with {self.text}")
+        # if match: debug(f"{token.text} matches with {self.text}")
         return match
 
 class Question():
@@ -65,8 +65,8 @@ class QuestionPool():
     
     def getQuestion(self, candidates, questions=None):
         if not questions: questions = self.questions
-        debug(candidates)
-        debug(questions)
+        # debug(candidates)
+        # debug(questions)
         if questions:
             chooseCount = 0
             q = random.choice(questions[len(candidates)])
@@ -97,7 +97,6 @@ class QuestionPool():
             else:
                 questionDict[varCount] = [question]
         questionDict['last'] = None       
-        debug(questionDict)
         return questionDict
 
     def __repr__(self):
@@ -190,10 +189,8 @@ class IEngine():
             # Neg - means user does not want to continue talking with this engine
             if res.sentiment.polarity == 0:
                 if res.raw.lower() in nophrases: # negative response
-                    debug("NO DETECTED") 
                     self.finished = True
                 elif res.raw.lower() in yesphrases:
-                    debug("YES DETECTED") 
                     unsure = False
                 else:
                     # dont know what user said
@@ -208,10 +205,8 @@ class IEngine():
         """ has the quota for acceptable onjects been met """
         completeCount = 0
         for obj in self.iobjects:
-            debug(obj)
             if obj.isAcceptable():
                 completeCount += 1
-        debug(completeCount)
         return completeCount >= self.quota
 
     def findProperty(self, name):
@@ -253,7 +248,7 @@ class IEngine():
             self.confirm(prompter)
         
         if not self.finished:
-            debug("Searching for followups")
+            # debug("Searching for followups")
             # look for missing data
             for i, obj in enumerate(self.iobjects):
                 missing = obj.missingValues()
@@ -261,9 +256,9 @@ class IEngine():
                 debug(f"Missing props: {missing}")
                 for prop in missing:
                     iprop = self.findProperty(prop)
-                    debug(iprop)
+                    # debug(iprop)
                     candidates = obj.default_candidates()
-                    debug(candidates)
+                    # debug(candidates)
                     followup = iprop.ask(candidates=candidates)
                     target = (self.name, i)
                     # debug(f'target_index: {target}')

@@ -16,11 +16,11 @@ def createDoc(filename, user):
     document = Document()
     nl = "\n" #for new line
 
-    if not user.exists():
-        user.fullname = "Marke Clarke"
-        user.address = "UWI Mona"
-        user.email = "mclarke@gmail.com"
-        user.telnum = "876-995-9656"
+    # if not user.exists():
+    #     user.fullname = "Marke Clarke"
+    #     user.address = "UWI Mona"
+    #     user.email = "mclarke@gmail.com"
+    #     user.telnum = "876-995-9656"
 
     document.add_heading(f'Resume for {user.fullname}', 0)
     # CONTACT INFO
@@ -37,7 +37,7 @@ def createDoc(filename, user):
     for d in degrees:
         
         # p = document.add_paragraph(str(d))
-        document.add_paragraph(f'{d.properties["title"]}{nl}{d.properties["date"].strftime('%Y')}{nl}{d.properties["source"]}')
+        document.add_paragraph(f'{d.properties["title"]}{nl}{d.properties["date"].strftime("%Y")}{nl}{d.properties["source"]}')
         print(str(d))
 
     # SKILLS
