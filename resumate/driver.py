@@ -4,9 +4,12 @@ from resumate.iengines.utils import *
 # import and register all IEngines 
 from resumate.iengines.education.ie_eduction import ieducation
 from resumate.iengines.skill.ie_skill import ieskills
+from resumate.docgen import createDoc
 
 # import prompter
 from resumate.iengines.prompter import prompter
+
+# import docgen
 
 # target = (enginename, obj_index)
 
@@ -23,6 +26,8 @@ def run():
             # analyze
             analyze(res, engine, target)
         debug(engine.iobjects, pretty=True)
+    
+    createDoc("TestRes.docx")
 
 def analyze(res, engine, target):
     """ relevant engines analyze response """
@@ -31,3 +36,9 @@ def analyze(res, engine, target):
     if question and target:
         res = prompter.prompt(question)
         analyze(res, engine, target)    
+
+"""
+Fill out education quick
+I have a Bachelors of Economics and a Masters of Social Science. I got one in 2018 and I got the other in 2019. I got one from UWI and the 
+other from UWI
+"""

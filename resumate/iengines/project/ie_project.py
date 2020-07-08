@@ -1,5 +1,5 @@
 from resumate.iengines.core import IEngine, IObject
-from resumate.iengines.project.dateFinder import dateProjProp
+from resumate.iengines.project.dateFinder_proj import dateProjProp
 from resumate.iengines.utils import *
 
 properties = [
@@ -40,12 +40,12 @@ class Project(IObject):
         return [self.properties['title']] if self.properties['title'] else []
 
     def __repr__(self):
-        return f'<Degree title={self.properties[titleProp.name]}, source={self.properties[sourceProp.name]}, date={self.properties[dateProp.name]}>'
+        return f'<Project title={self.properties[titleProp.name]}, source={self.properties[sourceProp.name]}, date={self.properties[dateProp.name]}>'
 
 class IE_Project(IEngine):
     """ Inference Engine for Projects """
 
-    def __init__(self, name, questions, confirmations, properties, objType=Degree, quota=1):
+    def __init__(self, name, questions, confirmations, properties, objType=Project, quota=1):
         super().__init__(name, questions, confirmations, properties, objType, quota)
 
 iproject = IE_Projects(
