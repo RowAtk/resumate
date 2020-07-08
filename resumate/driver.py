@@ -19,7 +19,7 @@ engines = [ieducation, ieskills, ieproject]  # list all engines in order to be e
 globalengines = [engine for engine in engines if engine.isGlobal]
 
 def run():
-    # prompter.meeting()
+    prompter.meeting()
     for mainengine in engines:
         while not mainengine.finished:
             # store object decides how to ask question really
@@ -36,6 +36,7 @@ def run():
     else:
         pre = ""
     createDoc(pre + "resumate.docx", user = user)
+    # prompter.salutations()
 
 
 def analyze(res, mainengine, target):

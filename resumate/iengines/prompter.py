@@ -81,7 +81,8 @@ class Prompter():
     def meeting(self):
         """ gather user details """
         self.greeting() # greeting first!
-        if not self.user.exists():
+        # if not self.user.exists():
+        if True:
             # gather details here
             firstname = self.prompt("what is your firstname")
             lastname = self.prompt("what is your lastname")
