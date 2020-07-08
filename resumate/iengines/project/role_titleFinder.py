@@ -30,10 +30,12 @@ def projTitleFinder(doc=None, txt=""):
         else:
             t.append(token.text)
 
-            
-            
     t = " ".join(t)
-    return [t]
+    t = t.strip(".")
+    t = t.strip()
+    t = t.split(" . ")
+
+    return t
 
 projTitleProp = IProperty(
     name='proj title',
