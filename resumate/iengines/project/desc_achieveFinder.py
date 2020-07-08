@@ -42,8 +42,9 @@ descProp = IProperty(
         Pipe(desc_achFinder, name='descFinder')
     ],
     questions=[
-        'describe what your # project is about',
-        'describe what your project is about'
+        'describe what your \'#\' project is about',
+        'describe what your project is about',
+        'describe the project for me'
     ],
     followups=[
         'tell me what # is about'
@@ -56,7 +57,7 @@ achieveProp = IProperty(
         Pipe(desc_achFinder, name='achieveFinder')
     ],
     questions=[
-        'what did you accomplish in this # project',
+        'what did you accomplish in this \'#\' project',
         'what did you accomplish in this project'
     ],
     followups=[

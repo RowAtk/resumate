@@ -12,10 +12,10 @@ properties = [
     designProp,
     versCtrlProp
 ]
-
+# eg. Programming Languages, DBMS or ORM technologies used, Deisgn Tools used
 questions = [
-    "tell me about some of your technical skills",
-    "what technical skills do you have"
+    "tell me about some of your technical skills (eg. Programming Languages, DBMS or ORM technologies used, Deisgn Tools used)",
+    "what technical skills do you have (eg. Programming Languages, DBMS or ORM technologies used, Deisgn Tools used)"
 ]
 
 mquestions = [
@@ -35,7 +35,10 @@ class Skills(IObject):
         self.quota = 10
 
     def isAcceptable(self):
-        return True
+        c = 0
+        for key, val in self.properties.items():
+            c += len(val)
+        return c > 5
 
     def default_candidates(self):
         return []
@@ -45,12 +48,12 @@ class Skills(IObject):
             self.properties[prop] += obj.properties[prop]
     
     def __repr__(self):
-        lang = self.properties[progLangProp.name]
-        frameW = self.properties[webTechFrameworkProp.name]
-        scripts = self.properties[scriptProp.name]
-        dbms = self.properties[dbProp.name]
-        des = self.properties[designProp.name]
-        ver = self.properties[versCtrlProp.name]
+        lang = set(self.properties[progLangProp.name])
+        frameW = set(self.properties[webTechFrameworkProp.name])
+        scripts = set(self.properties[scriptProp.name])
+        dbms = set(self.properties[dbProp.name])
+        des = set(self.properties[designProp.name])
+        ver = set(self.properties[versCtrlProp.name])
         return f'<Skills languages={lang}\nframeworks={frameW}\nscripts={scripts}\ndbms={dbms}\ndesign={des}\nversion={ver}>'
 
 

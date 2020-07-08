@@ -19,10 +19,11 @@ dateProjProp = IProperty(
     ],
     questions=[
         'when did you do this project',
-        'when did you start this project'
+        'when did you start this project',
+        'when did you do \'#\'',
+        'when did you start \'#\''
     ],
     followups=[
         'is # when you finished your ! project',
-        'did you get that ! degree in #'
     ]
 )

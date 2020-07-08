@@ -43,10 +43,10 @@ projTitleProp = IProperty(
         Pipe(projTitleFinder, name='projTitleFinder')
     ],
     questions=[
-        'Tell me about a project you\'ve worked on. what is the name of your project'
+        'Let’s talk about one project at a time. What’s the name of a project you’ve worked on'
     ],
     followups=[
-        'is # the name of your project'
+        'is \'#\' the name of your project'
     ]
 )
 
@@ -56,8 +56,8 @@ roleProp = IProperty(
         Pipe(projTitleFinder, name='roleFinder')
     ],
     questions=[
-        'what was your role on this project',
-        'what was your role on this # project'
+        'What roles did you play in this project',
+        'what were your roles on this \'#\' project'
     ],
     followups=[
         'is # your role on this project'

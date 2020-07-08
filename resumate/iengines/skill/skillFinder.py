@@ -121,7 +121,7 @@ webTechFrameworkProp = IProperty(
         Pipe(webTechFrameworkFinder, name='webTechFrameworkFinder')
     ],
     questions=[
-        'what web technologies and frameworks do you know'
+        'what Web technologies and Frameworks (e.g. Flask, Angular, HTML5) do you know'
     ],
     followups=[
         ''
@@ -134,7 +134,7 @@ scriptProp = IProperty(
         Pipe(scriptFinder, name='scriptFinder')
     ],
     questions=[
-        'what web scripts (eg Javascript, jQuery) do you know'
+        'what Web Scripts (e.g. JavaScript, jQuery, AJAX) do you know'
     ],
     followups=[
         ''
@@ -147,7 +147,7 @@ dbProp = IProperty(
         Pipe(dbFinder, name='dbFinder')
     ],
     questions=[
-        'what Database and ORM tools do you know'
+        'what Database and ORM tools do you know (eg. MySQL, sqlalchemy)'
     ],
     followups=[
         ''
@@ -160,7 +160,7 @@ designProp = IProperty(
         Pipe(designFinder, name='designFinder')
     ],
     questions=[
-        'what design tools do you know'
+        'what Design Tools (e.g. Photoshop) do you know'
     ],
     followups=[
         ''
@@ -173,7 +173,7 @@ versCtrlProp = IProperty(
         Pipe(versCtrlFinder, name='versCtrlFinder')
     ],
     questions=[
-        'what Version Control software do you know'
+        'what Version Control Software do you know (eg. Git)'
     ],
     followups=[
         ''
