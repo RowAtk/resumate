@@ -15,6 +15,7 @@ from resumate.iengines.prompter import prompter
 # target = (enginename, obj_index)
 
 engines = [ieproject]  # list all engines in order to be executed
+engines = [ieducation, ieskills]
 # globalengines = [engine for engine in engines if engine.isGlobal]
 
 def run():
@@ -29,7 +30,12 @@ def run():
             analyze(res, engine, target)
         debug(engine.iobjects, pretty=True)
     
-    createDoc("gendocs\TestRes.docx")
+    user = prompter.user
+    if user.exists():
+        pre = user.firstname
+    else:
+        pre = ""
+    createDoc(f"gendocs\{pre}TestRes.docx", user = user)
 
 
 def analyze(res, mainengine, target):
