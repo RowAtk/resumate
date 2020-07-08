@@ -11,7 +11,14 @@ class Prompter():
 
     def __init__(self, user=None, interesting=True):
         """ init prompter """
-        self.user = user if user else User(firstname='', lastname='', title='', gender='')
+        self.user = user if user else User(
+            firstname='Marke',
+            lastname='Clarke',
+            address='UWI Mona', 
+            email='mclarke@gmail.com', 
+            telnum='876-995-9656', 
+            title='Mr'
+        )
         self.interesting = interesting
         self.setup()
         self.speaker = None
@@ -90,7 +97,7 @@ class Prompter():
             email=email,
             telnum=telnum
         )
-        debug(self.user)
+        # debug(self.user)
         self.talk("Ok. I feel like I know you 10% more now!")
 
     def makePrompt(self, question):

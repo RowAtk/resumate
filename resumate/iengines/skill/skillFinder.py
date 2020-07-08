@@ -90,13 +90,13 @@ def skillFinder(doc=None, srch=""):
 
     res = []
     keywords = skillsDict[srch] if srch else skillsDict.values()
-    debug(f'KEYWORDS: {keywords}')
+    # debug(f'KEYWORDS: {keywords}')
     for token in doc:
         for val in keywords:
             if val.lower() == token.text.lower():
                 res.append(val)
     
-    debug(f'Skill Result: {res}')
+    # debug(f'Skill Result: {res}')
     if res:
         return res
     return None

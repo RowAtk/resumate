@@ -16,11 +16,11 @@ def createDoc(filename, user):
     document = Document()
     nl = "\n" #for new line
 
-    if not user.exists():
-        user.fullname = "Marke Clarke"
-        user.address = "UWI Mona"
-        user.email = "mclarke@gmail.com"
-        user.telnum = "876-995-9656"
+    # if not user.exists():
+    #     user.fullname = "Marke Clarke"
+    #     user.address = "UWI Mona"
+    #     user.email = "mclarke@gmail.com"
+    #     user.telnum = "876-995-9656"
 
     document.add_heading(f'Resume for {user.fullname}', 0)
     # CONTACT INFO

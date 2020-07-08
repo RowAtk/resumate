@@ -50,7 +50,6 @@ class Project(IObject):
         if self.isSame(obj):
             for prop, val in self.properties.items():
                 if not val:
-                    print("IN LOOOOOOOOOOOOOOooP")
                     self.properties[prop] = obj.properties[prop]
                     break
         else:
@@ -75,7 +74,6 @@ class IE_Project(IEngine):
 
     def __init__(self, name, questions, confirmations, properties, objType, quota=1):
         super().__init__(name, questions, confirmations, properties, objType, quota)
-        print(self.makeObjects(self.analyze(nlp('the'))))
         self.iobjects += self.makeObjects(self.analyze(nlp('the')))
 
     def ask(self):
