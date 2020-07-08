@@ -37,7 +37,10 @@ def createDoc(filename, user):
     for d in degrees:
         
         # p = document.add_paragraph(str(d))
-        document.add_paragraph(f'{d.properties["title"]}{nl}{d.properties["date"].strftime("%Y")}{nl}{d.properties["source"]}')
+        try:
+            document.add_paragraph(f'{d.properties["title"]}{nl}{d.properties["date"].strftime("%Y")}{nl}{d.properties["source"]}')
+        except:
+            pass
         print(str(d))
 
     # SKILLS
@@ -59,7 +62,7 @@ def createDoc(filename, user):
     document.add_heading('Work in Progress', 2)
     for proj in projects:
         document.add_paragraph(str(proj))
-        
+
     print(projects)
 #     for proj in projects:
 #         document.add_heading(f'{proj.properties["proj title"]}', 2)
