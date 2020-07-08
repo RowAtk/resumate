@@ -12,10 +12,11 @@ from docx import Document
 
 "Takes Knowledge from the Various IE and outputs them to a doc file"
 
-def createDoc(filename):
-    name = "Nathaniel Christie"
+def createDoc(filename, name="Nathaniel Christie"):
     document = Document()
     document.add_heading(f'Resume for {name}', 0)
+
+    # EDUCATION
     document.add_heading('Education', 1)
 
     degrees = ieducation.iobjects
@@ -26,10 +27,20 @@ def createDoc(filename):
         document.add_paragraph(f'{d.properties["title"]}{nl}{d.properties["date"]}{nl}{d.properties["source"]}')
         print(str(d))
 
-    print("We out here")
+    # SKILLS
     document.add_heading('Skills', 1)
 
+    skills = ieskills.iobjects[0]
+    print(skills)
+    for key, vals in skills.properties.items():
+        if vals:
+            p = document.add_paragraph('', style="List Bullet")
+            p.add_run(f'{key.title()}: ').bold = True
+            p.add_run(", ".join(vals)).italic = True
+    
+
+
+    # PROJECTS
     document.add_heading('Projects', 1)
 
     document.save(filename)
-    print("Up late")

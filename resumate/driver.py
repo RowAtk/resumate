@@ -39,6 +39,8 @@ def analyze(res, engine, target):
 
 """
 Fill out education quick
-I have a Bachelors of Economics and a Masters of Social Science. I got one in 2018 and I got the other in 2019. I got one from UWI and the 
-other from UWI
+I have a Bachelors in Economics and a Masters in Social Science. I got one in 2018 and I got the other in 2019. I got one from UWI and the other from UWI
+
+Some Skillz
+I know Django, Flask, PHP, Javascript, HTML5, MySQL, and Git
 """

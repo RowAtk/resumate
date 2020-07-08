@@ -21,11 +21,9 @@ mquestions = [
 ]
 
 confirmations = [
-    "i have some more questions about your education, but we could stop here. Do you want to continue",
-    # "are there any other degrees you would like to mention",
+    "okay cool. Are there any more academic degrees I should know about",
+    "nice! Are there any other degrees you would like to mention",
     # "any other degrees you might have forgotten"
-    "do you wish to keep talking about education",
-    "i have more to ask about your education, can we continue"
 ]
 
 # Make Degree class - store all data and the logic to assess it
@@ -37,7 +35,7 @@ class Degree(IObject):
 
     def isAcceptable(self):
         """ Does object meet minimum criteria """
-        needed = ['title', 'source']
+        needed = ['title', 'source', 'date']
         for need in needed:
             if not self.properties[need]:
                 return False
@@ -61,6 +59,6 @@ ieducation = IE_Education(
     confirmations = confirmations,
     properties = properties,
     objType=Degree,
-    quota=2
+    quota=1
 )
 # ieducation.ask(confirmation = True) # 
