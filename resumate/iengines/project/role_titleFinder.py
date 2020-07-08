@@ -8,6 +8,8 @@ from resumate.iengines.core import Pipe, IProperty
 Remove stop words from the user's response to the title question and returns a list with a String of the title
 Simple Case: "It is called {title}" 
 
+Also includes the Role Finder
+
 """
 
 def projTitleFinder(doc=None, txt=""):
@@ -18,7 +20,6 @@ def projTitleFinder(doc=None, txt=""):
 
     stopWords = nlp.Defaults.stop_words
     stopWords.add("it")
-    cnt = 0
 
     for token in doc:
         if (token.lemma_ in stopWords or token.pos_ in ["PRON"]):
@@ -31,7 +32,7 @@ def projTitleFinder(doc=None, txt=""):
     t = " ".join(t)
     return [t]
 
-    projTitleProp = IProperty(
+projTitleProp = IProperty(
     name='proj title',
     pipes=[
         Pipe(projTitleFinder, name='projTitleFinder')
@@ -43,3 +44,15 @@ def projTitleFinder(doc=None, txt=""):
         'is # the name of your project'
     ]
 )
+
+roleProp = IProperty(
+    name='role',
+    pipes=[
+        Pipe(projTitleFinder, name='roleFinder')
+    ],
+    questions=[
+        'what was your role on this project'
+    ],
+    followups=[
+        'is # your role on this project'
+    ]
