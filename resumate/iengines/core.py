@@ -65,6 +65,7 @@ class QuestionPool():
     
     def getQuestion(self, candidates, questions=None):
         if not questions: questions = self.questions
+        debug(candidates)
         debug(questions)
         if questions:
             chooseCount = 0

@@ -4,13 +4,14 @@ from resumate.iengines.utils import *
 # import and register all IEngines
 from resumate.iengines.education.ie_eduction import ieducation
 from resumate.iengines.skill.ie_skill import ieskills
+from resumate.iengines.project.ie_project import ieproject 
 
 # import prompter
 from resumate.iengines.prompter import prompter
 
 # target = (enginename, obj_index)
 
-engines = [ieducation, ieskills]  # list all engines in order to be executed
+engines = [ieproject]  # list all engines in order to be executed
 # globalengines = [engine for engine in engines if engine.isGlobal]
 
 def run():

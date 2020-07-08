@@ -28,11 +28,8 @@ def desc_achFinder(doc=None, txt=""):
                 t.append(".")
             continue
         else:
-            
             t.append(token.text)
 
-            
-            
     t = " ".join(t)
     return [t]
 
@@ -42,6 +39,7 @@ descProp = IProperty(
         Pipe(desc_achFinder, name='descFinder')
     ],
     questions=[
+        'describe what your # project is about',
         'describe what your project is about'
     ],
     followups=[
@@ -55,6 +53,7 @@ achieveProp = IProperty(
         Pipe(desc_achFinder, name='achieveFinder')
     ],
     questions=[
+        'what did you accomplish in this # project',
         'what did you accomplish in this project'
     ],
     followups=[
