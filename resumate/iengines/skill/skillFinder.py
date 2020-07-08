@@ -39,6 +39,7 @@ frame_Lang_Pair = {
 
 def progLangFinder(doc=None, txt=''):
     """Takes a doc object (or string) and finds any programming languages in the string. Returns a list of strings"""
+    # Nice to Have: learn languages the user knows based on frameworks mentioned
     if not doc:
         doc = nlp(txt)
     

@@ -23,6 +23,9 @@ def projTitleFinder(doc=None, txt=""):
 
     for token in doc:
         if (token.lemma_ in stopWords or token.pos_ in ["PRON"]):
+            if token.text.lower() in ["and"]:
+                # separate compound phrases with a full stop
+                t.append(".")
             continue
         else:
             t.append(token.text)
@@ -56,3 +59,4 @@ roleProp = IProperty(
     followups=[
         'is # your role on this project'
     ]
+)

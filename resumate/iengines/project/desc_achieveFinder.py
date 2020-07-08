@@ -23,6 +23,9 @@ def desc_achFinder(doc=None, txt=""):
 
     for token in doc:
         if ((token.lemma_ in stopWords or token.pos_ in ["PRON"]) and token.dep_ not in ["prep"]):
+            if token.text.lower() in ["and"]:
+                # separate compound phrases with a full stop
+                t.append(".")
             continue
         else:
             
