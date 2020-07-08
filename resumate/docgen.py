@@ -39,7 +39,6 @@ def createDoc(filename, name="Nathaniel Christie"):
             p.add_run(", ".join(vals)).italic = True
     
 
-
     # PROJECTS
     document.add_heading('Projects', 1)
 
