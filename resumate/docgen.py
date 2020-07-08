@@ -37,7 +37,7 @@ def createDoc(filename, user):
     for d in degrees:
         
         # p = document.add_paragraph(str(d))
-        document.add_paragraph(f'{d.properties["title"]}{nl}{d.properties["date"].strftime('%Y')}{nl}{d.properties["source"]}')
+        document.add_paragraph(f'{d.properties["title"]}{nl}{d.properties["date"].strftime("%Y")}{nl}{d.properties["source"]}')
         print(str(d))
 
     # SKILLS
@@ -55,5 +55,20 @@ def createDoc(filename, user):
     # PROJECTS
     document.add_heading('Projects', 1)
 
+    projects = ieproject.iobjects
+    print(projects)
+    for proj in projects:
+        document.add_heading(f'{proj.properties["proj title"][0]}', 2)
+        document.add_paragraph(f'Date: {proj.properties["date proj"][0].strftime("%Y")}')
+        projhelp(document, proj.properties["role"], "Role")
+        projhelp(document, proj.properties["description"], "Description")
+        projhelp(document, proj.properties["achieve"], "Achievements")
 
     document.save(filename)
+
+def projhelp(document, prop, title):
+    document.add_heading(f'{title}:', 3)
+    for val in prop:
+        if val:
+            p = document.add_paragraph('', style="List Bullet")
+            p.add_run(f'{val}')
