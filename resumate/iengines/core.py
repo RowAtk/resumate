@@ -74,8 +74,8 @@ class QuestionPool():
                 q = random.choice(questions[len(candidates)])
                 chooseCount += 1
             questions['last'] = q
+            candidates = [str(candidate) for candidate in candidates]
             for i in range(len(candidates)):
-                candidates = [str(candidate) for candidate in candidates]
                 q = q.replace(QuestionPool.MARKER, candidates[i], 1)
             
             return Question(q)
@@ -87,7 +87,11 @@ class QuestionPool():
     def consumeQuestions(self, questions):
         questionDict = {}
         for question in questions:  
-            varCount = question.split().count(QuestionPool.MARKER)
+            varCount = 0
+            for split in question.split():
+                if QuestionPool.MARKER in split:
+                    varCount += 1
+            # varCount = question.split().count(QuestionPool.MARKER)
             if varCount in questionDict:
                 questionDict[varCount].append(question)
             else:

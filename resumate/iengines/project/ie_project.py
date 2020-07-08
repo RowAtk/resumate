@@ -4,13 +4,14 @@ from resumate.iengines.project.role_titleFinder import projTitleProp, roleProp
 from resumate.iengines.project.desc_achieveFinder import descProp, achieveProp
 from resumate.iengines.utils import *
 from resumate import nlp
+import random
 
 properties = [
     projTitleProp,
-    dateProjProp,
     descProp,
+    dateProjProp,
     roleProp,
-    achieveProp,    
+    achieveProp   
 ]
 
 questions = [
@@ -33,7 +34,8 @@ class Project(IObject):
     """ Class to represent information stored on a project """
 
     def __init__(self, properties):
-        super().__init__(properties)        
+        super().__init__(properties) 
+        self.quota = 7       
 
     def isAcceptable(self):
         """ Does object meet minimum criteria """
@@ -55,7 +57,10 @@ class Project(IObject):
             raise Exception("Two Objects are of different types! Can't Megre!")
 
     def default_candidates(self):
-        return [self.properties['proj title']] if self.properties['proj title'] else []
+        title = [self.properties['proj title']] if self.properties['proj title'] else []
+        empty = []
+        c = [title, empty]
+        return random.choice(c)
 
     def __repr__(self):
         title = self.properties['proj title']
@@ -77,9 +82,6 @@ class IE_Project(IEngine):
         """ get general question to ask - projects only ask followups """
         prop = self.properties[0]
         return prop.ask([]), [self.name, -1]
-
-    def analyze(self, doc):
-        return super().analyze(doc)
     
 
 ieproject = IE_Project(

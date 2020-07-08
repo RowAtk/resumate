@@ -18,13 +18,12 @@ dateProjProp = IProperty(
         Pipe(dateFinder_basic, name="Date Finder")
     ],
     questions=[
-        'when did you do this project',
+        'When did you start this project?',
         'tell me the timeframe this project took place.',
-        'tell me the timeframe  the project # took place.',
-        'when did you do #'
+        'tell me the timeframe the project \'#\' took place.',
+        'when did you do \'#\''
     ],
     followups=[
         'is # when you finished your ! project',
-        'did you get that ! degree in #'
     ]
 )
