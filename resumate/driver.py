@@ -27,7 +27,7 @@ def run():
             analyze(res, engine, target)
         debug(engine.iobjects, pretty=True)
     
-    createDoc("TestRes.docx")
+    createDoc("gendocs\TestRes.docx")
 
 def analyze(res, engine, target):
     """ relevant engines analyze response """

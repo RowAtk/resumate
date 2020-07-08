@@ -21,9 +21,9 @@ def createDoc(filename):
     degrees = ieducation.iobjects
 
     for d in degrees:
-        nl = "-"
-        p = document.add_paragraph(str(d))
-        # document.add_paragraph(f'{d.properties["title"]}{nl}{d.properties["date"]}{nl}{d.properties["source"]}')
+        nl = "\n"
+        # p = document.add_paragraph(str(d))
+        document.add_paragraph(f'{d.properties["title"]}{nl}{d.properties["date"]}{nl}{d.properties["source"]}')
         print(str(d))
 
     print("We out here")
