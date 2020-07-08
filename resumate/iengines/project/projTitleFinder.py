@@ -18,12 +18,28 @@ def projTitleFinder(doc=None, txt=""):
 
     stopWords = nlp.Defaults.stop_words
     stopWords.add("it")
+    cnt = 0
 
     for token in doc:
-        if token.lemma_ in stopWords or token.pos_ in ["PRON"]:
+        if (token.lemma_ in stopWords or token.pos_ in ["PRON"]):
             continue
         else:
             t.append(token.text)
+
+            
             
     t = " ".join(t)
     return [t]
+
+    projTitleProp = IProperty(
+    name='proj title',
+    pipes=[
+        Pipe(projTitleFinder, name='projTitleFinder')
+    ],
+    questions=[
+        'what is the name of your project'
+    ],
+    followups=[
+        'is # the name of your project'
+    ]
+)
