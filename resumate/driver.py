@@ -5,9 +5,12 @@ from resumate.iengines.utils import *
 from resumate.iengines.education.ie_eduction import ieducation
 from resumate.iengines.skill.ie_skill import ieskills
 from resumate.iengines.project.ie_project import ieproject 
+from resumate.docgen import createDoc
 
 # import prompter
 from resumate.iengines.prompter import prompter
+
+# import docgen
 
 # target = (enginename, obj_index)
 
@@ -25,6 +28,8 @@ def run():
             # analyze
             analyze(res, engine, target)
         debug(engine.iobjects, pretty=True)
+    
+    createDoc("gendocs\TestRes.docx")
 
 
 def analyze(res, mainengine, target):
@@ -37,4 +42,12 @@ def analyze(res, mainengine, target):
     question, target = mainengine.evaluate(prompter)
     if question and target:
         res = prompter.prompt(question)
-        analyze(res, mainengine, target)
+        analyze(res, engine, target)    
+
+"""
+Fill out education quick
+I have a Bachelors in Economics and a Masters in Social Science. I got one in 2018 and I got the other in 2019. I got one from UWI and the other from UWI
+
+Some Skillz
+I know Django, Flask, PHP, Javascript, HTML5, MySQL, and Git
+"""
