@@ -79,12 +79,16 @@ class Prompter():
             firstname = self.prompt("what is your firstname")
             lastname = self.prompt("what is your lastname")
             title = self.prompt("are you Mr/Ms/Mrs/Dr.. etc")
-            gender = self.prompt("are u a male or female")
+            address = self.prompt('what is your full address')
+            email = self.prompt('tell me your email address')
+            telnum = self.prompt('what is your telephone number')
         self.user = User(
             firstname=firstname,
             lastname=lastname,
             title=title,
-            gender=gender
+            address=address,
+            email=email,
+            telnum=telnum
         )
         debug(self.user)
         self.talk("Ok. I feel like I know you 10% more now!")

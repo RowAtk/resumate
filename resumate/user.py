@@ -1,12 +1,11 @@
 class User():
     """ RESUMATE USER """
 
-    def __init__(self, firstname, lastname, title, gender, address='', email='', telnum=''):
+    def __init__(self, firstname, lastname, title, address='', email='', telnum=''):
         self.firstname = firstname
         self.lastname = lastname
         self.fullname = firstname + ' ' + lastname
         self.title = title
-        self.gender = gender
         self.address = address
         self.email = email
         self.telnum = telnum

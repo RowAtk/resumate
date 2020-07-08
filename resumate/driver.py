@@ -29,7 +29,12 @@ def run():
             analyze(res, mainengine, target)
         debug(mainengine.iobjects, pretty=True)
     
-    createDoc("gendocs\TestRes.docx")
+    user = prompter.user
+    if user.exists():
+        pre = user.firstname
+    else:
+        pre = ""
+    createDoc(f"gendocs\{pre}TestRes.docx", user = user)
 
 
 def analyze(res, mainengine, target):
