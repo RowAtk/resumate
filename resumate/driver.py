@@ -34,7 +34,7 @@ def run():
         pre = user.firstname
     else:
         pre = ""
-    createDoc(f"gendocs\{pre}TestRes.docx", user = user)
+    createDoc(f"resumate.docx", user = user)
 
 
 def analyze(res, mainengine, target):
