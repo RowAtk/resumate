@@ -141,3 +141,7 @@ dmypy.json
 dsmodels/
 .vscode/
 .vscode/*
+
+# Docx
+*.docx
+*.docx*

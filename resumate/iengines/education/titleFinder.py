@@ -1,13 +1,9 @@
-import spacy
+from resumate import nlp
 
 from pprint import pprint
-from resumate.utils import *
+from resumate.iengines.utils import *
+from resumate.iengines.core import Pipe, IProperty
 
-# kinda lazy: don't want to have to run multiple files. Hence the import of dateFinder here
-from dateFinder import dateFinder_basic
-
-
-nlp = spacy.load("en_core_web_sm")
 
 # text = "I have a Masters in User Experience Design from Stanford. I also got a BSc in Software Engineering"
 # text = "I went to Stanford and got a Masters Degree."
@@ -25,33 +21,45 @@ text_basic = ["I have a Masters in User Experience Design from Stanford",
 
 # The last one is an experiment to consider later
 
-title_words = ["masters", "bsc", "bachelors", "degree", "doctorate", "phd", "associate"]
+title_words = ["masters", "master", "bsc", "bachelors", "bachelor", "degree", "doctorate", "phd", "associate"]
+loop_words = ["science", "art"] # for types of bachelors
+
 
 """
 Task List - Basic Title Finder:
 1) Only degree titles. Extract from sentences in the form ...{Degree Title} in {Subject}.
 """
 
-doc = nlp(text_basic[0])
 
-
-def titleFinder_basic(doc):
+def titleFinder_basic(doc=None, txt=""):
+    if not doc:
+        doc = nlp(txt)
     
-    # title_words = ["masters", "bsc", "bachelors", "associate", "doctorate", "phd"]
     title = []
     watch = 0
+    grp = ""
 
     for token in doc:
         if token.lemma_.lower() in title_words:
             watch = 1
-            title.append(token)
+            grp = grp + token.text.title() + " "
             # Consideration here could be to skip the work 'degree' from adding to this list
-        elif watch == 1 and token.dep_ == "prep":
+            # Skip 'at' and 'from' to avoid scenario 'I have a Bachelors in Computer Science from UWI' including UWI as a title
+        elif watch == 1 and token.dep_ == "prep" and token.text not in ["at", "from"]:
             watch = 2
+            grp = grp + token.text + " "
         elif watch == 2 and token.dep_ in ["compound", "pobj"]:
-            title.append(token)
+            grp = grp + token.text.title() + " "
+            if token.lemma_.lower() in loop_words:
+                watch = 1
         else:
+            if watch > 0:
+                title.append(grp.strip())
+                grp = ""
             watch = 0
+    
+    if grp != "":
+        title.append(grp.strip())
 
     return title
         
@@ -89,7 +97,18 @@ def titleFinder(doc):
     return titles
 
 
-
-
+titleProp = IProperty(
+    name='title',
+    pipes=[
+        Pipe(titleFinder_basic, name='titleFinder')
+    ],
+    questions=[
+        'what is the name of your degree'
+    ],
+    followups=[
+        'is # the name of your degree',
+        '# is your degree'
+    ]
+)
 
 

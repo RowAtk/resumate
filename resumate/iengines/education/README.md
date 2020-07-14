@@ -40,8 +40,9 @@ Types of Degrees: <https://study.com/different_degrees.html>
 
 ### April 18, 2020:
 * Main classes outlined
-    * 
-
+    
+### June 25, 2020:
+* Date Finder and Date Formatter added
 ----
 
 # Resumate Experiments with Spacy

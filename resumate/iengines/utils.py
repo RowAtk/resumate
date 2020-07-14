@@ -1,5 +1,10 @@
 from spacy import displacy
 from tabulate import _table_formats, tabulate
+import pprint
+from resumate import config
+from colorama import init, Fore, Back, Style
+
+init(autoreset=True)
 
 #========== TABULATION & VISUALIZATION ==========#
 def noun_clusters(doc):
@@ -67,11 +72,11 @@ def to_tree(token):
         result.append(list(map(to_tree, children)))
         return result
 
-def entitySearch(doc, ne_labels=[]):
+def entitySearch(doc, ne_labels=[], blacklist=[]):
     """ Identify possible sources using NE labels """
     ents = []
     for ent in doc.ents:
-        if ent.label_ in ne_labels:
+        if ent.label_ in ne_labels and ent.label_.lower() not in blacklist:
             ents.append(ent)
     return ents
 
@@ -85,7 +90,7 @@ def isPOS(token, pos_list):
 
 
 def stripTokens(tokenlist, blacklist=['DET'], side='left'):
-    """ Strip speicifed token from left and/or right of token list """
+    """ Strip specifed token from left and/or right of token list """
     # left strip
     if side == 'left' or side == 'both':
         x = 0 
@@ -106,3 +111,51 @@ def stripTokens(tokenlist, blacklist=['DET'], side='left'):
             x -= 1
     
     return tokenlist
+
+
+# Console I/O
+def debug(output, pretty=False):
+    if config.DEBUG:
+        if pretty:
+            pprint.pprint(output)
+        else:
+            printCol('DEBUG: ', color='red')
+            printCol(output, brightness='dim')
+            print()
+
+def printCol(output, color=None, brightness=None):
+    # set colour 
+    if color and color.lower() != 'white':
+        if color.lower() == 'red':
+            col = Fore.RED
+        if color.lower() == 'blue':
+            col = Fore.BLUE
+        if color.lower() == 'magenta':
+            col = Fore.MAGENTA
+        if color.lower() == 'yellow':
+            col = Fore.YELLOW
+        if color.lower() == 'green':
+            col = Fore.GREEN
+        if color.lower() == 'black':
+            col = Fore.BLACK
+        if color.lower() == 'cyan':
+            col = Fore.CYAN
+    else:
+        col = Fore.WHITE
+
+    # set brightness
+    if brightness and brightness.lower() != 'normal':
+        if brightness.lower() == 'bright':
+            style = Style.BRIGHT
+        if brightness.lower() == 'dim':
+            style = Style.DIM 
+    else:
+        style = Style.NORMAL
+    
+    output = str(output)
+    print(col + style + output, end="")
+
+def newline(x=1):
+    """ print specified number of newline characters """
+    for i in range(x):
+        print("\n", end="")

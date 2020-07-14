@@ -5,13 +5,14 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker 
 # from resumate.knowledge.db import 
 
-print(config.DevConfig.SQLALCHEMY_DATABASE_URI)
-engine = create_engine(config.DevConfig.SQLALCHEMY_DATABASE_URI) # connection
+print(config.SQLALCHEMY_DATABASE_URI)
+# engine = create_engine(config.SQLALCHEMY_DATABASE_URI) # connection
+engine = None
 
-Session = sessionmaker(bind=engine) # db.session
+# Session = sessionmaker(bind=engine) # db.session
 
-Base = declarative_base() # eqv to db.Model
+# Base = declarative_base() # eqv to db.Model
 
 
 # init_knowledge()
-from resumate.knowledge import db
+# from resumate.knowledge import db
