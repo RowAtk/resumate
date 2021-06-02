@@ -38,7 +38,7 @@ tabulate==0.8.7
 textblob==0.15.3
 thinc==7.4.0
 tqdm==4.45.0
-urllib3==1.25.9
+urllib3==1.26.5
 wasabi==0.6.0
 word2number==1.1
 zipp==3.1.0
